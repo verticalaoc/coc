@@ -62,7 +62,7 @@ return [
             'driver' => 'mysql',
             'host' => RDS_HOSTNAME,
             'port' => 3306,
-            'database' => RDS_DB_NAME,
+            'database' => 'coc',
             'username' => RDS_USERNAME,
             'password' => RDS_PASSWORD,
             'charset' => 'utf8',
