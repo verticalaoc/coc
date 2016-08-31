@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'ClanController@query');
+Route::get('/clans/{clanTag}/members', 'ClanController@members');
+Route::get('/clans/{clanTag}/warlogs', 'ClanController@warlogs');
+Route::get('/clans/{clanTag}', 'ClanController@clan');
+Route::post('/clans', 'ClanController@clans');
+Route::get('/locations', 'ClanController@locations');
+
