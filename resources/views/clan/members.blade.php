@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container">
-    <h1>
+    <h2>
         部落詳細資訊 - {{ $clan->name }}
-    </h1>
+    </h2>
     @include('clan.include.clanDetail')
     <hr>
     <h1>成員資訊</h1>

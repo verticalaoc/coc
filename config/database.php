@@ -1,4 +1,15 @@
 <?php
+if (!defined('RDS_HOSTNAME') && env('APP_ENV') != 'local') {
+    define('RDS_HOSTNAME', $_SERVER['RDS_HOSTNAME']);
+    define('RDS_USERNAME', $_SERVER['RDS_USERNAME']);
+    define('RDS_PASSWORD', $_SERVER['RDS_PASSWORD']);
+    define('RDS_DB_NAME', $_SERVER['RDS_DB_NAME']);
+} else {
+    define('RDS_HOSTNAME', 'RDS_HOSTNAME NOT SET YET');
+    define('RDS_USERNAME', 'RDS_USERNAME NOT SET YET');
+    define('RDS_PASSWORD', 'RDS_PASSWORD NOT SET YET');
+    define('RDS_DB_NAME', 'RDS_DB_NAME NOT SET YET');
+}
 return [
 
     /*
@@ -54,10 +65,10 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'port' => 3306,
-            'host'      => env('DB_HOST',$_SERVER['RDS_HOSTNAME']),
+            'host'      => env('DB_HOST',RDS_HOSTNAME),
             'database'  => env('DB_DATABASE','coc'),
-            'username'  => env('DB_USERNAME',$_SERVER['RDS_USERNAME']),
-            'password'  => env('DB_PASSWORD',$_SERVER['RDS_PASSWORD']),
+            'username'  => env('DB_USERNAME',RDS_USERNAME),
+            'password'  => env('DB_PASSWORD',RDS_PASSWORD),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

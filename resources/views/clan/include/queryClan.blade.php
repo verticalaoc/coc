@@ -9,9 +9,9 @@
     </div>
     @endif
 
-    <h1>
+    <h2>
         搜尋部落
-    </h1>
+    </h2>
     <hr>
     <form method="POST" action="/clans" accept-charset="UTF-8">
         {{ csrf_field() }}

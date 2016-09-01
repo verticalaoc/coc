@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container">
-    <h1>
+    <h2>
         部落歷史紀錄 - {{$clans[0]->name}}
-    </h1>
+    </h2>
     <hr>
     @include('clan.include.clanDetail', ['clan' => $clans[0]])
     <hr>
