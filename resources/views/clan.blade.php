@@ -50,7 +50,9 @@
 </head>
 
 <body>
-<h1>部落衝突</h1>
-@yield('content')
+<div class="container">
+    <h1>部落衝突 Clash of Clans</h1>
+    @yield('content')
+</div>
 </body>
 </html>
