@@ -56,7 +56,7 @@ return [
             'port' => 3306,
             'host'      => $_SERVER['RDS_HOSTNAME'],
             'database'  => 'coc',
-            'username'  => $_SERVER['RDS_PASSWORD'],
+            'username'  => $_SERVER['RDS_USERNAME'],
             'password'  => $_SERVER['RDS_PASSWORD'],
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
