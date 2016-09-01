@@ -30,7 +30,7 @@ class ClanController extends Controller
     {
         $this->validate($request,
             [
-                'name' => 'required|min:4',
+                'name' => 'min:4',
             ],
             [
                 'name.min' => '部落名稱長度不可小於 4',
