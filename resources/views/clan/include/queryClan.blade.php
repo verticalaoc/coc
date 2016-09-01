@@ -43,12 +43,10 @@
         {!! Form::label('location', '部落位置', ['class'=>'col-sm-2 col-form-label']) !!}
         <div class="col-sm-10">
             <select id="locationId" name="locationId" class="form-control">
-                <option value="any">Any</option>
+                <option value="any" selected="selected">Any</option>
                 @foreach($locations as $location)
                 @if($location->isCountry)
-                <option value="{{$location->id}}" @if($location->id == "32000228")
-                    selected="selected"@endif>{{$location->name}}
-                </option>
+                <option value="{{$location->id}}">{{$location->name}}</option>
                 @endif
                 @endforeach
             </select>
