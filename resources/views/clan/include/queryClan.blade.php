@@ -14,8 +14,7 @@
     </h1>
     <hr>
     <form method="POST" action="/clans" accept-charset="UTF-8">
-        <input name="_token" hidden value="{{ csrf_token() }}">
-
+        {{ csrf_field() }}
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">部落名稱</label>
 
