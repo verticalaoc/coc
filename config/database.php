@@ -1,14 +1,9 @@
 <?php
-if (!defined('RDS_HOSTNAME') && env('APP_ENV') != 'local') {
+if (!defined('RDS_HOSTNAME')) {
     define('RDS_HOSTNAME', $_SERVER['RDS_HOSTNAME']);
     define('RDS_USERNAME', $_SERVER['RDS_USERNAME']);
     define('RDS_PASSWORD', $_SERVER['RDS_PASSWORD']);
     define('RDS_DB_NAME', $_SERVER['RDS_DB_NAME']);
-} elseif (!defined('RDS_HOSTNAME') && env('APP_ENV') == 'local') {
-    define('RDS_HOSTNAME', env('DB_HOST'));
-    define('RDS_USERNAME', env('DB_USERNAME'));
-    define('RDS_PASSWORD', env('DB_PASSWORD'));
-    define('RDS_DB_NAME', env('DB_DATABASE'));
 }
 
 return [
