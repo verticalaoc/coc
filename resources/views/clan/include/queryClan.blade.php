@@ -90,7 +90,13 @@
             </small>
         </div>
 
+        <div class="col-sm-4 col-sm-offset-8">
+            <input class="btn btn-primary form-control" type="submit" name="submit"
+                   value="搜尋">
+            <small class="form-text text-muted">
+                因搜尋結果涵蓋各部落成員資料，需處理時間，請耐心等候。
+            </small>
+        </div>
     </div>
-    <input class="btn btn-primary form-control" type="submit" name="submit" value="搜尋">
 </form>
 <hr>
