@@ -4,7 +4,7 @@ if (!defined('RDS_HOSTNAME') && env('APP_ENV') != 'local') {
     define('RDS_USERNAME', $_SERVER['RDS_USERNAME']);
     define('RDS_PASSWORD', $_SERVER['RDS_PASSWORD']);
     define('RDS_DB_NAME', $_SERVER['RDS_DB_NAME']);
-} else {
+} elseif (!defined('RDS_HOSTNAME')) {
     define('RDS_HOSTNAME', 'RDS_HOSTNAME NOT SET YET');
     define('RDS_USERNAME', 'RDS_USERNAME NOT SET YET');
     define('RDS_PASSWORD', 'RDS_PASSWORD NOT SET YET');

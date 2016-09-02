@@ -12,8 +12,7 @@
     搜尋部落
 </h2>
 <hr>
-<form method="POST" action="/clans" accept-charset="UTF-8">
-    {{ csrf_field() }}
+<form method="GET" action="/clans" accept-charset="UTF-8">
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">部落名稱</label>
 
