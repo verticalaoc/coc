@@ -40,7 +40,7 @@ class CocService
         $input = $this->removeEmptyInput($input);
 
         $clans = array();
-        if (empty($input['name'] || $input['dev'] = 1)) {
+        if ((isset($input['name']) && empty($input['name']) || $input['dev'] = 1)) {
             // optimized search
             $minMembers = $input['minMembers'];
             $maxMembers = $input['maxMembers'];
