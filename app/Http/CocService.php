@@ -87,10 +87,8 @@ class CocService
      *
      * @return array the array of ClanRanking
      */
-    public
-    function getClanRankings(
-        $input
-    ) {
+    public function getClanRankings($input)
+    {
         if (!isset($input['locationId']) || empty($input['locationId'])) {
             throw new RuntimeException("locationId is required.");
         }

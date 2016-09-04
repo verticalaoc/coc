@@ -6,7 +6,7 @@
     <th>tag</th>
 <!--    <th>type</th>-->
     <th>等級</th>
-    <th>總點數</th>
+    <th>總分數</th>
 <!--    <th>requiredTrophies</th>-->
 <!--    <th>warFrequency</th>-->
     <th>對戰連勝次數</th>

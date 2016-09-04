@@ -18,6 +18,11 @@ class ClanRankingController extends Controller
         ];
     }
 
+    /**
+     * Display the page for clan ranking query
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function queryClanRankings()
     {
         $cocService = new CocService();
@@ -33,7 +38,6 @@ class ClanRankingController extends Controller
             ]
         );
         $input = $request->all();
-
         $cocService = new CocService();
         $clans = $cocService->getClanRankings($input);
         return view('clan.ranking', compact('clans'));
