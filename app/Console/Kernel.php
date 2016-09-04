@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
          Commands\Inspire::class,
-        Commands\TestLog::class,
     ];
 
     /**
@@ -27,7 +26,5 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-
-        $schedule->command('test:Log')->everyMinute();
     }
 }
