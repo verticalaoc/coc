@@ -1,3 +1,7 @@
+@extends('clan')
+
+@section('content')
+
 @if (count($errors) > 0)
 <div class="alert alert-danger">
     <ul>
@@ -43,10 +47,12 @@
 
         <div class="col-sm-10">
             <select id="locationId" name="locationId" class="form-control">
-                <option value="any" selected="selected">Any</option>
+                <option value="any">Any</option>
                 @foreach($locations as $location)
                 @if($location->isCountry)
-                <option value="{{$location->id}}">{{$location->name}}</option>
+                <option value="{{$location->id}}" @if($location->id ==
+                    "32000228")selected="selected"@endif>{{$location->name}}
+                </option>
                 @endif
                 @endforeach
             </select>
@@ -57,14 +63,22 @@
 
         <div class="col-sm-10">
             <input class='form-control' name="minMembers" type="text" value="30">
+            <small class="form-text text-muted">
+                至少 30.
+            </small>
         </div>
+
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">最多部落成員</label>
 
         <div class="col-sm-10">
             <input class='form-control' name="maxMembers" type="text" value="50">
+            <small class="form-text text-muted">
+                至少 30, 最多 50, 且大於'最少部落成員'
+            </small>
         </div>
+
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">最低部落等級</label>
@@ -81,22 +95,14 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label">筆數</label>
-
-        <div class="col-sm-10">
-            <input class='form-control' name="limit" type="text" value="10">
-            <small class="form-text text-muted">
-                限制回傳筆數。如不限定，搜尋時間將會依情況延長。
-            </small>
-        </div>
-
         <div class="col-sm-4 col-sm-offset-8">
-            <input class="btn btn-primary form-control" type="submit" name="submit"
-                   value="搜尋">
+            <input class="btn btn-primary form-control" type="submit" name="submit" value="搜尋">
             <small class="form-text text-muted">
-                因搜尋結果涵蓋各部落成員資料，需處理時間，請耐心等候。
+                最多回傳 1000 筆資料
             </small>
         </div>
     </div>
 </form>
 <hr>
+
+@stop

@@ -11,10 +11,24 @@
 |
 */
 
-Route::get('/', 'ClanController@query');
+
+// clans
+Route::get('/', 'ClanController@queryClans');
+Route::get('/queryClans', 'ClanController@queryClans');
+Route::get('/clans', 'ClanController@clans');
+
 Route::get('/clans/{clanTag}/members', 'ClanController@members');
 Route::get('/clans/{clanTag}/warlogs', 'ClanController@warlogs');
 Route::get('/clans/{clanTag}', 'ClanController@clan');
-Route::get('/clans', 'ClanController@clans');
+
+
+
+// for dev, get clan from db
+Route::get('/clansFromDb', 'ClanController@clansFromDb');
+// for dev, get locations
 Route::get('/locations', 'ClanController@locations');
 
+
+// clan ranking
+Route::get('/queryClanRankings', 'ClanRankingController@queryClanRankings');
+Route::get('/clanRankings', 'ClanRankingController@clanRankings');

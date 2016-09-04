@@ -3,28 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Clan;
-use App\Location;
+use App\Http\CocService;
 use App\Member;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Carbon\Carbon;
-use Illuminate\Validation\Validator;
 
 class ClanController extends Controller
 {
     const API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImI5MWE2OWVmLWU5ZDgtNGY5Ni1iOTc2LWU2ZmM0NjEyY2VjNiIsImlhdCI6MTQ3MjE2OTU5OSwic3ViIjoiZGV2ZWxvcGVyLzMzYjI0NmNlLTg3MTMtNzllYi1iZTY0LWJlZjk3YWQwMzYwZiIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjIwMi44OS4xMjEuMTYiLCIxLjM0LjIxNS4xMSIsIjEuMzQuMjE1LjE1IiwiNTIuNzYuOTMuMTcyIl0sInR5cGUiOiJjbGllbnQifV19.dO67BRlJUXM4aWDd0RTD9ajRoIREOCocnftThTfMmOabEG57FrgHW2WPHdrS8G0IJ7rXZq771d57sUwnGiGX6g";
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'name.min' => '部落名稱長度不可小於 4',
-        ];
-    }
 
     public function clans(\Illuminate\Http\Request $request)
     {
@@ -37,14 +24,8 @@ class ClanController extends Controller
             ]
         );
 
-        // remove the filter for locationId if it equals to 'any'
-        $input = $request->all();
-        if ($input['locationId'] == "any") {
-            unset($input['locationId']);
-        }
-
         // remove any input which is null or empty
-        $input = array_filter($input,
+        $input = array_filter($request->all(),
             function (
                 $value
             ) {
@@ -53,46 +34,49 @@ class ClanController extends Controller
         );
 
         // query and get the list of clans
-        $clans = $this->getClansByInput($input);
-        $clanModels = array();
-        foreach ($clans as $index => $data) {
-            // query the detail info for each clan
-            list($clan, $memberList) = $this->getClanByTag($data['tag']);
+        $cocService = new CocService();
+        $clans = $cocService->getClans($input);
 
-            // sum the donations
-            $clan['donations'] = $this->sumMemberDonation($memberList);
-            $clans[$index]['donations'] = $this->sumMemberDonation($memberList);
-
-            // save clan data to clans table
-            $this->saveClanDataIfNotCreatedToday($clan);
-
-            // collect the latest data by tag from DB
-            $clanModel = Clan::where([
-                'tag' => $clan['tag']
-            ])->orderBy('created_at', 'DESC')->first();
-            $clanModels[] = $clanModel;
-
-            // save memberList data to members table
-            foreach ($memberList as $member) {
-                $member['clanId'] = $clanModel->id;
-                $this->saveMemberDataIfNotCreatedToday($member);
-            }
-        }
-
-//        foreach ($clanModels as $clanModel) {
-//            list($clan, $memberList) = $this->getClanByTag($clanModel->tag);
+//        $clans = $this->getClansByInput($input);
+//        $clanModels = array();
+//        foreach ($clans as $index => $data) {
+//            // query the detail info for each clan
+//            list($clan, $memberList) = $this->getClanByTag($data['tag']);
+//
+//            // sum the donations
+//            $clan['donations'] = $this->sumMemberDonation($memberList);
+//            $clans[$index]['donations'] = $this->sumMemberDonation($memberList);
+//
+//            // save clan data to clans table
+//            $this->saveClanDataIfNotCreatedToday($clan);
+//
+//            // collect the latest data by tag from DB
+//            $clanModel = Clan::where([
+//                'tag' => $clan['tag']
+//            ])->orderBy('created_at', 'DESC')->first();
+//            $clanModels[] = $clanModel;
+//
+//            // save memberList data to members table
 //            foreach ($memberList as $member) {
 //                $member['clanId'] = $clanModel->id;
 //                $this->saveMemberDataIfNotCreatedToday($member);
 //            }
 //        }
 
+        //        foreach ($clanModels as $clanModel) {
+        //            list($clan, $memberList) = $this->getClanByTag($clanModel->tag);
+        //            foreach ($memberList as $member) {
+        //                $member['clanId'] = $clanModel->id;
+        //                $this->saveMemberDataIfNotCreatedToday($member);
+        //            }
+        //        }
+
         //        $clanModels = array();
         //        foreach($clans as $clan){
         //            $clanModels[] = new Clan($clan);
         //        }
 
-        $clans = $clanModels;
+//        $clans = $clanModels;
         return view('clan.clans', compact('clans', 'input'));
     }
 
@@ -109,14 +93,21 @@ class ClanController extends Controller
         return view('clan.members', compact('clan', 'memberList'));
     }
 
-    public function query()
+    public function queryClans()
     {
-        $data = $this->getLocations();
-        $locations = array();
-        foreach ($data['items'] as $item) {
-            $locations[] = new Location($item);
-        }
-        return view('clan.query', compact('locations'));
+        $cocService = new CocService();
+        $locations = $cocService->getLocations();
+        return view('clan.queryClans', compact('locations'));
+    }
+
+    /**
+     * Get the clans from DB
+     *
+     */
+    public function clansFromDb()
+    {
+        $clans = Clan::orderBy('clanPoints', 'DESC')->limit(10)->get();
+        return view('clan.clans', compact('clans'));
     }
 
     public function warlogs($clanTag)
@@ -185,14 +176,16 @@ class ClanController extends Controller
      */
     private function getClansByInput($input)
     {
+        $input = array_filter($input,
+            function (
+                $value
+            ) {
+                return !empty($value);
+            }
+        );
+
         $headers = ['Accept' => 'application/json', 'authorization' => 'Bearer ' . self::API_TOKEN];
-        $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query(
-                array_filter($input,
-                    function (
-                        $value
-                    ) {
-                        return !empty($value);
-                    })), $headers);
+        $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $headers);
         $client = new Client([
             'base_uri' => 'https://api.clashofclans.com/v1/',
             'timeout' =>
@@ -210,6 +203,13 @@ class ClanController extends Controller
         return $flattenClans;
     }
 
+    /**
+     * COC API - get clan by clan tag
+     *
+     * @param $clanTag
+     *
+     * @return array
+     */
     private function getClanByTag($clanTag)
     {
         $headers = ['Accept' => 'application/json', 'authorization' => 'Bearer ' . self::API_TOKEN];
@@ -252,7 +252,6 @@ class ClanController extends Controller
                 empty($clan['location']['isCountry']) ||
                 empty($clan['location']['countryCode'])
             ) {
-                //                dd($clan);
             }
             $newClan['locationId'] = $clan['location']['id'];
             $newClan['locationName'] = $clan['location']['name'];
@@ -283,6 +282,7 @@ class ClanController extends Controller
         }
         return $newClan;
     }
+
 
     /**
      * Transform member data from array to Member models.
