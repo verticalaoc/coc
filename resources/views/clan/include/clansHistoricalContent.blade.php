@@ -12,7 +12,8 @@
     <td>{{$clan->warWinStreak}}</td>
     <td>{{$clan->warWins}}</td>
     <!--        <td>{{$clan->isWarLogPublic}}</td>-->
-    <td><a href="{{action('ClanController@members',[urlencode($clan->id)])}}">{{$clan->members}}</a></td>
+    <td><a href="{{action('ClanController@members',[urlencode($clan->id)])}}">{{$clan->members}}</a>
+    </td>
     <td>{{$clan->donations}}</td>
-<!--    <td>{{$clan->description}}</td>-->
+    <!--    <td>{{$clan->description}}</td>-->
 </tr>

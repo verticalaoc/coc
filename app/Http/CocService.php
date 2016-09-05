@@ -41,42 +41,15 @@ class CocService
         $input = $this->removeEmptyInput($input);
 
         $clans = array();
-        if ((isset($input['name']) && empty($input['name']) || $input['dev'] = 1)) {
-            // optimized search
-            $minMembers = $input['minMembers'];
-            $maxMembers = $input['maxMembers'];
-            for ($members = $maxMembers; $members >= $minMembers; $members--) {
-                $input['minMembers'] = $members;
-                $input['maxMembers'] = $members;
-                $input['limit'] = 1000;
-                $queries[] = 'https://api.clashofclans.com/v1/clans?' . http_build_query($input);
-                $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
-                $response = $this->client->send($request, ['timeout' => 10.0]);
-                $responseData = json_decode($response->getBody()->getContents(), true);
-                $clansData = $responseData['items'];
-                $counter[$members] = sizeof($clansData);
-                foreach ($clansData as $clanData) {
-                    $clanData = $this->flattenData($clanData);
-                    $clans[] = new Clan($clanData);
-                }
-                if (sizeof($clans) >= 1000) {
-                    return array_slice($clans, 0, 1000);
-                }
-            }
-        } else {
-            $queries[] = 'https://api.clashofclans.com/v1/clans?' . http_build_query($input);
-            $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
-            $response = $this->client->send($request, ['timeout' => 10.0]);
-            $responseData = json_decode($response->getBody()->getContents(), true);
-            $clansData = $responseData['items'];
+        $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
+        $response = $this->client->send($request, ['timeout' => 10.0]);
+        $responseData = json_decode($response->getBody()->getContents(), true);
+        $clansData = $responseData['items'];
 
-            foreach ($clansData as $clanData) {
-                $clanData = $this->flattenData($clanData);
-                $clans[] = new Clan($clanData);
-            }
+        foreach ($clansData as $clanData) {
+            $clanData = $this->flattenData($clanData);
+            $clans[] = new Clan($clanData);
         }
-
-
         return $clans;
     }
 
@@ -231,6 +204,62 @@ class CocService
             }
         }
         return true;
+    }
+
+
+    /**
+     * Get clans - /v1/clans
+     *
+     * @param $input the input for query.
+     *
+     * @return array
+     */
+    public function getAllClans($input)
+    {
+        // remove the filter for locationId if it equals to 'any'
+        if ($input['locationId'] == "any") {
+            unset($input['locationId']);
+        }
+        $input = $this->removeEmptyInput($input);
+
+        $clans = array();
+        if ((isset($input['name']) && empty($input['name']) || $input['dev'] = 1)) {
+            // optimized search
+            $minMembers = $input['minMembers'];
+            $maxMembers = $input['maxMembers'];
+            for ($members = $maxMembers; $members >= $minMembers; $members--) {
+                $input['minMembers'] = $members;
+                $input['maxMembers'] = $members;
+                $input['limit'] = 1000;
+                $queries[] = 'https://api.clashofclans.com/v1/clans?' . http_build_query($input);
+                $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
+                $response = $this->client->send($request, ['timeout' => 10.0]);
+                $responseData = json_decode($response->getBody()->getContents(), true);
+                $clansData = $responseData['items'];
+                $counter[$members] = sizeof($clansData);
+                foreach ($clansData as $clanData) {
+                    $clanData = $this->flattenData($clanData);
+                    $clans[] = new Clan($clanData);
+                }
+                if (sizeof($clans) >= 1000) {
+                    return array_slice($clans, 0, 1000);
+                }
+            }
+        } else {
+            $queries[] = 'https://api.clashofclans.com/v1/clans?' . http_build_query($input);
+            $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
+            $response = $this->client->send($request, ['timeout' => 10.0]);
+            $responseData = json_decode($response->getBody()->getContents(), true);
+            $clansData = $responseData['items'];
+
+            foreach ($clansData as $clanData) {
+                $clanData = $this->flattenData($clanData);
+                $clans[] = new Clan($clanData);
+            }
+        }
+
+
+        return $clans;
     }
 
 

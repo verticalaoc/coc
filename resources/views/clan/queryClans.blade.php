@@ -47,11 +47,15 @@
 
         <div class="col-sm-10">
             <select id="locationId" name="locationId" class="form-control">
-                <option value="any">Any</option>
+                <option value=""></option>
+                <option value="32000006">International</option>
                 @foreach($locations as $location)
                 @if($location->isCountry)
-                <option value="{{$location->id}}" @if($location->id ==
-                    "32000228")selected="selected"@endif>{{$location->name}}
+                <option value="{{$location->id}}"
+                        @if($location->id == "32000228")
+                    selected
+                    @endif
+                    >{{$location->name}}
                 </option>
                 @endif
                 @endforeach
@@ -63,9 +67,6 @@
 
         <div class="col-sm-10">
             <input class='form-control' name="minMembers" type="text" value="30">
-            <small class="form-text text-muted">
-                至少 30.
-            </small>
         </div>
 
     </div>
@@ -74,9 +75,6 @@
 
         <div class="col-sm-10">
             <input class='form-control' name="maxMembers" type="text" value="50">
-            <small class="form-text text-muted">
-                至少 30, 最多 50, 且大於'最少部落成員'
-            </small>
         </div>
 
     </div>
@@ -97,9 +95,6 @@
     <div class="form-group row">
         <div class="col-sm-4 col-sm-offset-8">
             <input class="btn btn-primary form-control" type="submit" name="submit" value="搜尋">
-            <small class="form-text text-muted">
-                最多回傳 1000 筆資料
-            </small>
         </div>
     </div>
 </form>
