@@ -19,24 +19,29 @@ class DevController extends Controller
     public function monitorTopClans()
     {
         $cocService = new CocService();
-        $input = array();
 
+        // monitorTaiwanTopClans
+        $input = array();
+        $input['locationId'] = "32000228"; // Taiwan
+        $input['minClanLevel'] = "7";
+        for ($members = 30; $members <= 50; $members++) {
+            $input['minMembers'] = $members;
+            $input['maxMembers'] = $members;
+            $clans = $cocService->getCLans($input);
+            $this->monitorClans($clans);
+        }
+
+        // monitorTopClans
+        $input = array();
         $locationIds = [
             "32000228", // Taiwan
             "32000006", // International
             "32000056", // China
         ];
-
         foreach ($locationIds as $locationId) {
             $input['locationId'] = $locationId;
             $clans = $cocService->getClanRankings($input);
-            foreach ($clans as $clan) {
-                /** @var ClanRanking $clan */
-                $foundClan = MonitoredClan::where('tag', $clan->tag)->first();
-                if (!$foundClan) {
-                    MonitoredClan::create($clan->getAttributes());
-                }
-            }
+            $this->monitorClans($clans);
         }
     }
 
@@ -146,6 +151,24 @@ class DevController extends Controller
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Add the clans into monitorClans table.
+     *
+     * @param $clans
+     *
+     * @return array
+     */
+    public function monitorClans($clans)
+    {
+        foreach ($clans as $clan) {
+            /** @var ClanRanking $clan */
+            $foundClan = MonitoredClan::where('tag', $clan->tag)->first();
+            if (!$foundClan) {
+                MonitoredClan::create($clan->getAttributes());
+            }
         }
     }
 }
