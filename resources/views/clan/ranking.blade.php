@@ -23,7 +23,7 @@
     @foreach ($clans as $clan)
     <tr>
         <td><img src="{{$clan->badgeUrlsSmall}}"></td>
-        <td>{{$clan->tag}}</td>
+        <td><a href="{{ action('ClanController@clan', [urlencode($clan->tag)]) }}">{{$clan->tag}}</a></td>
         <td>{{$clan->name}}</td>
 <!--        <td>{{$clan->locationName}}</td>-->
         <td>{{$clan->clanLevel}}</td>

@@ -4,6 +4,7 @@ namespace App\Http;
 use App\Clan;
 use App\ClanRanking;
 use App\Location;
+use App\Member;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Psy\Exception\RuntimeException;
@@ -80,6 +81,31 @@ class CocService
     }
 
     /**
+     * COC API - get clan by clan tag
+     *
+     * @param $clanTag
+     *
+     * @return array
+     */
+    public function getClanByTag($clanTag)
+    {
+        $request = new Request('GET', 'https://api.clashofclans.com/v1/clans/' . urlencode($clanTag), $this->headers);
+        $response = $this->client->send($request, ['timeout' => 10.0]);
+        $responseData = json_decode($response->getBody()->getContents(), true);
+        $memberList = $responseData['memberList'];
+        unset($responseData['memberList']);
+        $clan = new Clan($this->flattenData($responseData));
+        $members = array();
+        foreach ($memberList as $memberData) {
+            $member = new Member($this->flattenData($memberData));
+            $member->clanId = $clan->id;
+            $members[] = $member;
+        }
+        return array($clan, $members);
+
+    }
+
+    /**
      * Get clan rankings - /v1/locations/{locationId}/rankings/clans
      * The locationId info should be carried in the input array.
      *
@@ -137,20 +163,19 @@ class CocService
      *
      * @return array
      */
-    private
-    function flattenData(
-        $data
-    ) {
-        $flattenedData = array();
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                $flattenedData = array_merge($flattenedData, $this->flattenArrayDataWithKey($data, $key));
-                unset($flattenedData[$key]);
-            } else {
-                $flattenedData[$key] = $value;
+    private function flattenData($data)
+    {
+        do {
+            foreach ($data as $key => $value) {
+                if (is_array($value)) {
+                    $data = array_merge($data, $this->flattenArrayDataWithKey($data, $key));
+                    unset($data[$key]);
+                } else {
+                    $data[$key] = $value;
+                }
             }
-        }
-        return $flattenedData;
+        } while (!$this->isFlattened($data));
+        return $data;
     }
 
     /**
@@ -161,10 +186,8 @@ class CocService
      *
      * @return the flattened data
      */
-    private
-    function flattenArrayDataWithKey(
-        $data, $index
-    ) {
+    private function flattenArrayDataWithKey($data, $index)
+    {
         $retData = array();
         if (isset($data[$index]) && !empty($data[$index]) && is_array($data[$index])) {
             foreach ($data[$index] as $key => $value) {
@@ -182,10 +205,8 @@ class CocService
      *
      * @return array
      */
-    private
-    function removeEmptyInput(
-        $input
-    ) {
+    private function removeEmptyInput($input)
+    {
         return array_filter($input,
             function (
                 $value
@@ -193,6 +214,23 @@ class CocService
                 return !empty($value);
             }
         );
+    }
+
+    /**
+     * Check if all elements are not array.
+     *
+     * @param $data
+     *
+     * @return bool
+     */
+    private function isFlattened($data)
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
