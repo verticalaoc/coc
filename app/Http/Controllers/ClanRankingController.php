@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Clan;
 use App\Http\CocService;
 
 class ClanRankingController extends Controller
@@ -40,7 +41,18 @@ class ClanRankingController extends Controller
         $input = $request->all();
         $cocService = new CocService();
         $clans = $cocService->getClanRankings($input);
-        return view('clan.ranking', compact('clans'));
+
+        $clanExistsInDb = array();
+        foreach ($clans as $clan) {
+            $found = Clan::where('tag', $clan->tag)->orderBy('created_at', 'desc')->first();
+            if ($found) {
+                $clanExistsInDb[$clan->tag] = true;
+            } else {
+                $clanExistsInDb[$clan->tag] = false;
+            }
+        }
+
+        return view('clan.ranking', compact('clans', 'clanExistsInDb'));
     }
 
     public function locations()

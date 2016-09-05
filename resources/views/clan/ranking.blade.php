@@ -11,7 +11,7 @@
         <th>旗幟</th>
         <th>標籤</th>
         <th>名稱</th>
-<!--        <th>位置</th>-->
+        <!--        <th>位置</th>-->
         <th>等級</th>
         <th>成員</th>
         <th>總分數</th>
@@ -23,9 +23,15 @@
     @foreach ($clans as $clan)
     <tr>
         <td><img src="{{$clan->badgeUrlsSmall}}"></td>
-        <td><a href="{{ action('ClanController@clan', [urlencode($clan->tag)]) }}">{{$clan->tag}}</a></td>
+        <td>
+            @if ($clanExistsInDb[$clan->tag])
+            <a href="{{ action('ClanController@clan', [urlencode($clan->tag)]) }}">{{$clan->tag}}</a>
+            @else
+            {{$clan->tag}}
+            @endif
+        </td>
         <td>{{$clan->name}}</td>
-<!--        <td>{{$clan->locationName}}</td>-->
+        <!--        <td>{{$clan->locationName}}</td>-->
         <td>{{$clan->clanLevel}}</td>
         <td>{{$clan->members}}</td>
         <td>{{$clan->clanPoints}}</td>

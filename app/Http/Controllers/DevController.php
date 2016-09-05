@@ -61,16 +61,19 @@ class DevController extends Controller
             $clan->donations = $donations;
 
             // create clan and get clanId
-            $this->saveClanIfNotCreatedToday($clan);
-            $createdClan = Clan::where([
-                'tag' => $clan->tag
-            ])->orderBy('created_at', 'DESC')->first();
+            $isSaved = $this->saveClanIfNotCreatedToday($clan);
 
-            // create members
-            foreach ($members as $member) {
-                /** @var Member member */
-                $member->clanId = $createdClan->id;
-                $this->saveMemberIfNotCreatedToday($member);
+            if (!$isSaved) {
+                $createdClan = Clan::where([
+                    'tag' => $clan->tag
+                ])->orderBy('created_at', 'DESC')->first();
+
+                // create members
+                foreach ($members as $member) {
+                    /** @var Member member */
+                    $member->clanId = $createdClan->id;
+                    Member::create($member->getAttributes());
+                }
             }
         }
     }
@@ -88,7 +91,9 @@ class DevController extends Controller
     {
         if (!$this->isClanCreatedToday($clan)) {
             Clan::create($clan->getAttributes());
+            return false;
         }
+        return true;
     }
 
     /**
@@ -109,44 +114,6 @@ class DevController extends Controller
         if ($foundClan == null) return false;
 
         $createTime = new Carbon($foundClan->created_at);
-        if ($createTime->isSameDay(Carbon::now())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Save the member data to database if the data is not created today.
-     *
-     * @param $member
-     */
-    public function saveMemberIfNotCreatedToday(Member $member)
-    {
-        if (!$this->isMemberCreatedToday($member)) {
-            Member::create($member->getAttributes());
-        }
-    }
-
-    /**
-     * Check if the record is already saved.
-     * We only save a record per day.
-     *
-     * @param Member $member
-     *
-     * @return bool
-     * @internal param of $array clan info $item
-     *
-     */
-    private function isMemberCreatedToday(Member $member)
-    {
-        $foundMember = Member::where([
-            'tag' => $member->tag
-        ])->orderBy('created_at', 'DESC')->first();
-
-        if ($foundMember == null) return false;
-
-        $createTime = new Carbon($foundMember->created_at);
         if ($createTime->isSameDay(Carbon::now())) {
             return true;
         } else {
