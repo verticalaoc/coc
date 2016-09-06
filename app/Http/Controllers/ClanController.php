@@ -34,7 +34,7 @@ class ClanController extends Controller
         $clans = $cocService->getClans($input);
         $clanExistsInDb = array();
         foreach ($clans as $clan) {
-            $found = Clan::where('tag', $clan->tag)->orderBy('created_at', 'desc')->first();
+            $found = Clan::where('tag', $clan->tag)->orderBy('id', 'desc')->first();
             if ($found) {
                 $clanExistsInDb[$clan->tag] = true;
             } else {
@@ -46,7 +46,7 @@ class ClanController extends Controller
 
     public function clan($clanTag)
     {
-        $clans = Clan::where('tag', $clanTag)->orderBy('created_at', 'DESC')->get();
+        $clans = Clan::where('tag', $clanTag)->orderBy('id', 'DESC')->get();
         return view('clan.clan', compact('clans'));
     }
 

@@ -44,7 +44,7 @@ class ClanRankingController extends Controller
 
         $clanExistsInDb = array();
         foreach ($clans as $clan) {
-            $found = Clan::where('tag', $clan->tag)->orderBy('created_at', 'desc')->first();
+            $found = Clan::where('tag', $clan->tag)->orderBy('id', 'desc')->first();
             if ($found) {
                 $clanExistsInDb[$clan->tag] = true;
             } else {
