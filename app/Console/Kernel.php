@@ -31,25 +31,14 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('command:collect')->dailyAt('04:00')->withoutOverlapping()
             ->before(function () {
-                Log::info("[command:collect][start]");
-                Log::info(Carbon::now());
+                echo "[command:collect][start]";
+                echo Carbon::now()->toDateTimeString();
 
             })
             ->after(function () {
-                Log::info("[command:collect][end]");
-                Log::info(Carbon::now());
-            });
-
-
-        $schedule->command('command:collectVip')->everyMinute()->withoutOverlapping()
-            ->before(function () {
-                Log::info("[command:collectVip][start]");
-                Log::info(Carbon::now());
-
+                echo "[command:collect][end]";
+                echo Carbon::now()->toDateTimeString();
             })
-            ->after(function () {
-                Log::info("[command:collectVip][end]");
-                Log::info(Carbon::now());
-            });;
+            ->sendOutputTo("/tmp/laravel.schedule.log");
     }
 }
