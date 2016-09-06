@@ -66,7 +66,7 @@ class DevController extends Controller
             if (!$isSaved) {
                 $createdClan = Clan::where([
                     'tag' => $clan->tag
-                ])->orderBy('created_at', 'DESC')->first();
+                ])->orderBy('id', 'DESC')->first();
 
                 // create members
                 foreach ($members as $member) {
@@ -74,6 +74,37 @@ class DevController extends Controller
                     $member->clanId = $createdClan->id;
                     Member::create($member->getAttributes());
                 }
+            }
+        }
+    }
+
+    /**
+     * Query the clans information and save from monitoredClans.
+     */
+    public function saveVipClans()
+    {
+        $vipClansTag = array();
+        $vipClansTag[] = "#Y2CP999Y"; // 絕地逆襲 3盟
+        $vipClansTag[] = "#YV2P2VV8"; // 台灣Formosa
+
+        $cocService = new CocService();
+        foreach ($vipClansTag as $tag) {
+            list($clan, $members) = $cocService->getClanByTag($tag);
+            /** @var Clan $clan */
+
+            // sum donations
+            $donations = $this->getDonationsFromMembers($members);
+            $clan->donations = $donations;
+            Clan::create($clan->getAttributes());
+
+            $createdClan = Clan::where(['tag' => $clan->tag])
+                ->orderBy('id', 'DESC')->first();
+
+            // create members
+            foreach ($members as $member) {
+                /** @var Member member */
+                $member->clanId = $createdClan->id;
+                Member::create($member->getAttributes());
             }
         }
     }
@@ -110,7 +141,7 @@ class DevController extends Controller
     {
         $foundClan = Clan::where([
             'tag' => $clan->tag
-        ])->orderBy('created_at', 'DESC')->first();
+        ])->orderBy('id', 'DESC')->first();
         if ($foundClan == null) return false;
 
         $createTime = new Carbon($foundClan->created_at);

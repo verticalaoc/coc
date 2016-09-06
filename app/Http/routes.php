@@ -35,4 +35,4 @@ Route::get('/locations', 'ClanController@locations');
 // [dev] query the top clans and insert into monitoredClans table
 Route::get('/dev/monitorTopClans', 'DevController@monitorTopClans');
 // [dev] according to monitoredClans
-Route::get('/dev/queryClanAndSaveForMonitoredClans', 'DevController@queryClanAndSaveForMonitoredClans');
+//Route::get('/dev/queryClanAndSaveForMonitoredClans', 'DevController@queryClanAndSaveForMonitoredClans');

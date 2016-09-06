@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Inspire::class,
         Commands\CollectClanData::class,
+        Commands\CollectVipClanData::class,
     ];
 
     /**
@@ -26,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('command:collect')->dailyAt('04:00')->withoutOverlapping();
+        $schedule->command('command:collectVip')->everyMinute()->withoutOverlapping();
     }
 }
