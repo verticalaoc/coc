@@ -24,8 +24,5 @@ class CreateTagIndexToClans extends Migration
      */
     public function down()
     {
-        Schema::table('clans', function($table) {
-            $table->dropIndex("tag");
-        });
     }
 }
