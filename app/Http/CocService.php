@@ -19,7 +19,7 @@ class CocService
     {
         $this->client = new Client([
             'base_uri' => 'https://api.clashofclans.com/v1/',
-            'timeout' => 10.0,
+            'timeout' => 60.0,
         ]);
 
         $this->headers = ['Accept' => 'application/json', 'authorization' => 'Bearer ' . self::API_TOKEN];
@@ -42,7 +42,7 @@ class CocService
 
         $clans = array();
         $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
-        $response = $this->client->send($request, ['timeout' => 10.0]);
+        $response = $this->client->send($request, ['timeout' => 60.0]);
         $responseData = json_decode($response->getBody()->getContents(), true);
         $clansData = $responseData['items'];
 
@@ -63,7 +63,7 @@ class CocService
     public function getClanByTag($clanTag)
     {
         $request = new Request('GET', 'https://api.clashofclans.com/v1/clans/' . urlencode($clanTag), $this->headers);
-        $response = $this->client->send($request, ['timeout' => 10.0]);
+        $response = $this->client->send($request, ['timeout' => 60.0]);
         $responseData = json_decode($response->getBody()->getContents(), true);
         $memberList = $responseData['memberList'];
         unset($responseData['memberList']);
@@ -101,7 +101,7 @@ class CocService
             'GET',
             'https://api.clashofclans.com/v1/locations/' . $locationId . '/rankings/clans?' . http_build_query($input),
             $this->headers);
-        $response = $this->client->send($request, ['timeout' => 10.0]);
+        $response = $this->client->send($request, ['timeout' => 60.0]);
         $responseData = json_decode($response->getBody()->getContents(), true);
         foreach ($responseData['items'] as $clanRankingData) {
             $flattenedClanRankingData = $this->flattenData($clanRankingData);
@@ -119,7 +119,7 @@ class CocService
     function getLocations()
     {
         $request = new Request('GET', 'https://api.clashofclans.com/v1/locations', $this->headers);
-        $response = $this->client->send($request, ['timeout' => 10.0]);
+        $response = $this->client->send($request, ['timeout' => 60.0]);
         $responseData = json_decode($response->getBody()->getContents(), true);
         $locations = array();
         foreach ($responseData['items'] as $locationData) {
@@ -233,7 +233,7 @@ class CocService
                 $input['limit'] = 1000;
                 $queries[] = 'https://api.clashofclans.com/v1/clans?' . http_build_query($input);
                 $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
-                $response = $this->client->send($request, ['timeout' => 10.0]);
+                $response = $this->client->send($request, ['timeout' => 60.0]);
                 $responseData = json_decode($response->getBody()->getContents(), true);
                 $clansData = $responseData['items'];
                 $counter[$members] = sizeof($clansData);
@@ -248,7 +248,7 @@ class CocService
         } else {
             $queries[] = 'https://api.clashofclans.com/v1/clans?' . http_build_query($input);
             $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
-            $response = $this->client->send($request, ['timeout' => 10.0]);
+            $response = $this->client->send($request, ['timeout' => 60.0]);
             $responseData = json_decode($response->getBody()->getContents(), true);
             $clansData = $responseData['items'];
 
