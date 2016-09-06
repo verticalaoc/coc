@@ -24,8 +24,5 @@ class CreateTagIndexToMembers extends Migration
      */
     public function down()
     {
-        Schema::table('members', function($table) {
-            $table->dropIndex("tag");
-        });
     }
 }
