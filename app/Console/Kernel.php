@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('command:collect')
-            ->cron('10 0 * * * *')
+            ->cron('35 0 * * * *')
             ->sendOutputTo(storage_path('logs/schedule.log'), true);
     }
 }
