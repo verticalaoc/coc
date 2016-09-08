@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\DevController;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Mockery\CountValidator\Exception;
 
 class CollectClanData extends Command
 {
@@ -37,7 +39,15 @@ class CollectClanData extends Command
      */
     public function handle()
     {
-        $dev = new DevController();
-        $dev->queryClanAndSaveForMonitoredClans();
+        try {
+            $this->comment("[$this->signature][start]");
+            $this->comment(Carbon::now());
+            $dev = new DevController();
+            $dev->queryClanAndSaveForMonitoredClans();
+            $this->comment("[$this->signature][end]");
+            $this->comment(Carbon::now());
+        } catch (Exception $e) {
+            $this->error($e->getMessage())
+        }
     }
 }
