@@ -47,7 +47,7 @@ class CollectClanData extends Command
             $this->comment("[$this->signature][end]");
             $this->comment(Carbon::now());
         } catch (Exception $e) {
-            $this->error($e->getMessage())
+            $this->error($e->getMessage());
         }
     }
 }
