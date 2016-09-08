@@ -1,9 +1,9 @@
 <?php
 if (!defined('RDS_HOSTNAME') && env('APP_ENV') != 'local') {
-    define('RDS_HOSTNAME', $_SERVER['RDS_HOSTNAME']);
-    define('RDS_USERNAME', $_SERVER['RDS_USERNAME']);
-    define('RDS_PASSWORD', $_SERVER['RDS_PASSWORD']);
-    define('RDS_DB_NAME', $_SERVER['RDS_DB_NAME']);
+    define('RDS_HOSTNAME', get_cfg_var('RDS_HOSTNAME'));
+    define('RDS_USERNAME', get_cfg_var('RDS_USERNAME'));
+    define('RDS_PASSWORD', get_cfg_var('RDS_PASSWORD'));
+    define('RDS_DB_NAME', get_cfg_var('RDS_DB_NAME'));
 } elseif (!defined('RDS_HOSTNAME')) {
     define('RDS_HOSTNAME', 'RDS_HOSTNAME NOT SET YET');
     define('RDS_USERNAME', 'RDS_USERNAME NOT SET YET');
@@ -65,10 +65,10 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'port' => 3306,
-            'host'      => env('DB_HOST',RDS_HOSTNAME),
-            'database'  => env('DB_DATABASE','coc'),
-            'username'  => env('DB_USERNAME',RDS_USERNAME),
-            'password'  => env('DB_PASSWORD',RDS_PASSWORD),
+            'host' => env('DB_HOST', RDS_HOSTNAME),
+            'database' => env('DB_DATABASE', 'coc'),
+            'username' => env('DB_USERNAME', RDS_USERNAME),
+            'password' => env('DB_PASSWORD', RDS_PASSWORD),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
