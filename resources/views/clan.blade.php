@@ -51,7 +51,20 @@
 
 <body>
 <div class="container">
-    <h1><a href="/">部落衝突 Clash of Clans</a></h1>
+    <nav class="navbar navbar-light bg-faded">
+        <a class="navbar-brand" href="{{url('/')}}">部落衝突 Clash of Clans</a>
+        <ul class="nav navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url('/queryClans')}}">查詢部落</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url('/queryClanRankings')}}">查詢部落排名</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url('/about')}}">About</a>
+            </li>
+        </ul>
+    </nav>
     @yield('content')
 </div>
 </body>

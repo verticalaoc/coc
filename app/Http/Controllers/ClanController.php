@@ -57,6 +57,22 @@ class ClanController extends Controller
         return view('clan.members', compact('clan', 'memberList'));
     }
 
+    public function member($memberTag)
+    {
+        $memberList = Member::where('tag', $memberTag)->get();
+        $clanList = array();
+        foreach ($memberList as $member) {
+            if (array_key_exists($member->clanId, $clanList)) {
+                continue;
+            }
+            $clan = Clan::find($member->clanId);
+            $clanList[$member->clanId] = $clan;
+//            dd($clan);
+        }
+        //        dd($memberList);
+        return view('clan.member', compact('memberList', 'clanList'));
+    }
+
     public function queryClans()
     {
         $cocService = new CocService();
@@ -117,5 +133,10 @@ class ClanController extends Controller
             $clans[] = $clan;
         }
         return $clans;
+    }
+
+    public function about()
+    {
+        return view('clan.about');
     }
 }

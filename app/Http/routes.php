@@ -14,9 +14,15 @@
 // index
 Route::get('/', 'ClanController@index');
 
+// about
+Route::get('/about', 'ClanController@about');
+
 // clans
 Route::get('/queryClans', 'ClanController@queryClans');
 Route::get('/clans', 'ClanController@clans');
+
+// member
+Route::get('/member/{memberTag}', 'ClanController@member');
 
 // others
 Route::get('/clans/{clanTag}/members', 'ClanController@members');
