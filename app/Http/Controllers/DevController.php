@@ -59,15 +59,7 @@ class DevController extends Controller
     {
         $cocService = new CocService();
         $monitoredClans = MonitoredClan::all();
-        $count = sizeof($monitoredClans);
         foreach ($monitoredClans as $monitoredClan) {
-            // log progress
-            for ($i = 1; $i <= $count; $i++) {
-                $float = (float)$i / $count;
-                $percentage = round($float * 100, 2) . "%";
-                Log::notice($percentage);
-            }
-
             list($clan, $members) = $cocService->getClanByTag($monitoredClan->tag);
             /** @var Clan $clan */
             // sum donations
