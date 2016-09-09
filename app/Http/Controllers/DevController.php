@@ -23,7 +23,6 @@ class DevController extends Controller
 
         $locationIds = [
             "32000228", // Taiwan
-            "32000056", // China
         ];
         // monitorTaiwanTopClans
         $input = array();
