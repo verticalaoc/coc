@@ -11,6 +11,12 @@ use Carbon\Carbon;
 
 class DevController extends Controller
 {
+    private $locationIds = [
+        "32000228", // Taiwan
+        "32000006", // International
+        "32000056", // China
+    ];
+
     /**
      * Query Top Clans and insert the records into monitoredClan table
      *
@@ -22,23 +28,20 @@ class DevController extends Controller
 
         // monitorTaiwanTopClans
         $input = array();
-        $input['locationId'] = "32000228"; // Taiwan
-        $input['minClanLevel'] = "7";
-        for ($members = 30; $members <= 50; $members++) {
-            $input['minMembers'] = $members;
-            $input['maxMembers'] = $members;
-            $clans = $cocService->getCLans($input);
-            $this->monitorClans($clans);
+        foreach ($this->locationIds as $locationId) {
+            $input['locationId'] = $locationId;
+            $input['minClanLevel'] = "7";
+            for ($members = 30; $members <= 50; $members++) {
+                $input['minMembers'] = $members;
+                $input['maxMembers'] = $members;
+                $clans = $cocService->getCLans($input);
+                $this->monitorClans($clans);
+            }
         }
 
         // monitorTopClans
         $input = array();
-        $locationIds = [
-            "32000228", // Taiwan
-            "32000006", // International
-            "32000056", // China
-        ];
-        foreach ($locationIds as $locationId) {
+        foreach ($this->locationIds as $locationId) {
             $input['locationId'] = $locationId;
             $clans = $cocService->getClanRankings($input);
             $this->monitorClans($clans);
