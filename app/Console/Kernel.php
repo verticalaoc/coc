@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\Inspire::class,
         Commands\CollectClanData::class,
         Commands\CollectVipClanData::class,
+        Commands\AddClanToMonitor::class,
     ];
 
     /**
@@ -27,8 +28,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:collect')
-            ->cron('50 1 * * * *')
-            ->appendOutputTo(storage_path('logs/schedule.log'));
+//        $schedule->command('command:collect')
+//            ->cron('50 1 * * * *')
+//            ->appendOutputTo(storage_path('logs/schedule.log'));
     }
 }
