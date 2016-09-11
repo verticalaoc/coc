@@ -13,5 +13,14 @@ All news below are from <a href="https://clashofclans.com/zh/blog">《部落衝�
 <hr>
 @include('clan.blog.20160524')
 <hr>
+@include('clan.blog.20160515')
+<hr>
+@include('clan.blog.20160429')
+<hr>
+@include('clan.blog.20160428')
+<hr>
+@include('clan.blog.20160415')
+<hr>
+
 @stop
 
