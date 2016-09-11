@@ -1,4 +1,4 @@
-<div id="DIV_1">
+<div id="DIV_1" class="@font-family-base">
     <h3 id="H3_2">
         倡導遊戲公平
     </h3>
