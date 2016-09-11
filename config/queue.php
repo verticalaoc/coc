@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_DRIVER', 'sync'),
+    'default' => env('QUEUE_DRIVER', 'sqs'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,11 +50,11 @@ return [
 
         'sqs' => [
             'driver' => 'sqs',
-            'key' => 'your-public-key',
-            'secret' => 'your-secret-key',
-            'prefix' => 'https://sqs.us-east-1.amazonaws.com/your-account-id',
-            'queue' => 'your-queue-name',
-            'region' => 'us-east-1',
+            'key' => 'AKIAIZMZK6AHP6TB2IIA',
+            'secret' => 'bzCKdXwKRmhX06p5/3gSz3zwjtkbNUtT0SgL5FFt',
+            'prefix' => 'https://sqs.ap-southeast-1.amazonaws.com/625541683429',
+            'queue' => 'coc_save_clan_data',
+            'region' => 'ap-southeast-1',
         ],
 
         'redis' => [

@@ -1,6 +1,8 @@
 <html>
 
 <head>
+    <title>部落衝突 Clash of Clans 台灣部落/部落排名/成員/查詢/搜尋</title>
+    <meta name="description" content="提供查詢 Clash of Clans 的網頁查詢, 包含查詢部落, 查詢部落排名 和 查詢部落成員資料. 同時在首頁也提供了官方最新的資訊.">
     <link rel="shortcut icon" type="image/png" href="/media/images/favicon.png">
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.datatables.net/rss.xml">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
@@ -14,7 +16,8 @@
             $('#members').DataTable();
         });
     </script>
-    <style type="text/css" class="init"></style>
+    <style type="text/css" class="init">
+    </style>
     <script src="{{ url('/sorttable.js') }}"></script>
     <!-- 最新編譯和最佳化的 CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -47,6 +50,8 @@
             s.parentNode.insertBefore(ga, s);
         })();
     </script>
+
+
 </head>
 
 <body>
@@ -61,11 +66,13 @@
                 <a class="nav-link" href="{{url('/queryClanRankings')}}">查詢部落排名</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{url('/about')}}">About</a>
+                <a class="nav-link" href="{{url('/about')}}">關於</a>
             </li>
         </ul>
     </nav>
     @yield('content')
 </div>
+
+
 </body>
 </html>

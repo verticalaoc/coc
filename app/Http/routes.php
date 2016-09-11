@@ -12,6 +12,8 @@
 */
 
 // index
+use Illuminate\Support\Facades\File;
+
 Route::get('/', 'ClanController@index');
 
 // about
@@ -40,5 +42,5 @@ Route::get('/clansFromDb', 'ClanController@clansFromDb');
 Route::get('/locations', 'ClanController@locations');
 // [dev] query the top clans and insert into monitoredClans table
 Route::get('/dev/monitorTopClans', 'DevController@monitorTopClans');
-// [dev] according to monitoredClans
-//Route::get('/dev/queryClanAndSaveForMonitoredClans', 'DevController@queryClanAndSaveForMonitoredClans');
+// [dev] save clans
+Route::get('/dev/saveClans', 'DevController@saveClans');

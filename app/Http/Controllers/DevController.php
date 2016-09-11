@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Clan;
 use App\ClanRanking;
 use App\Http\CocService;
+use App\Jobs\SaveClanJob;
 use App\Member;
 use App\MonitoredClan;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class DevController extends Controller
 {
@@ -51,37 +51,37 @@ class DevController extends Controller
         }
     }
 
-    /**
-     * Query the clans information and save from monitoredClans.
-     */
-    public function queryClanAndSaveForMonitoredClans()
-    {
-        $cocService = new CocService();
-        $monitoredClans = MonitoredClan::all();
-        foreach ($monitoredClans as $monitoredClan) {
-            list($clan, $members) = $cocService->getClanByTag($monitoredClan->tag);
-            /** @var Clan $clan */
-            // sum donations
-            $donations = $this->getDonationsFromMembers($members);
-            $clan->donations = $donations;
-
-            // create clan and get clanId
-            $isSaved = $this->saveClanIfNotCreatedToday($clan);
-
-            if (!$isSaved) {
-                $createdClan = Clan::where([
-                    'tag' => $clan->tag
-                ])->orderBy('id', 'DESC')->first();
-
-                // create members
-                foreach ($members as $member) {
-                    /** @var Member member */
-                    $member->clanId = $createdClan->id;
-                    Member::create($member->getAttributes());
-                }
-            }
-        }
-    }
+//    /**
+//     * Query the clans information and save from monitoredClans.
+//     */
+//    public function queryClanAndSaveForMonitoredClans()
+//    {
+//        $cocService = new CocService();
+//        $monitoredClans = MonitoredClan::all();
+//        foreach ($monitoredClans as $monitoredClan) {
+//            list($clan, $members) = $cocService->getClanByTag($monitoredClan->tag);
+//            /** @var Clan $clan */
+//            // sum donations
+//            $donations = $this->getDonationsFromMembers($members);
+//            $clan->donations = $donations;
+//
+//            // create clan and get clanId
+//            $isSaved = $this->saveClanIfNotCreatedToday($clan);
+//
+//            if (!$isSaved) {
+//                $createdClan = Clan::where([
+//                    'tag' => $clan->tag
+//                ])->orderBy('id', 'DESC')->first();
+//
+//                // create members
+//                foreach ($members as $member) {
+//                    /** @var Member member */
+//                    $member->clanId = $createdClan->id;
+//                    Member::create($member->getAttributes());
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Query the clans information and save from monitoredClans.
@@ -123,39 +123,39 @@ class DevController extends Controller
         return $sum;
     }
 
-    private function saveClanIfNotCreatedToday(Clan $clan)
-    {
-        if (!$this->isClanCreatedToday($clan)) {
-            Clan::create($clan->getAttributes());
-            return false;
-        }
-        return true;
-    }
+//    private function saveClanIfNotCreatedToday(Clan $clan)
+//    {
+//        if (!$this->isClanCreatedToday($clan)) {
+//            Clan::create($clan->getAttributes());
+//            return false;
+//        }
+//        return true;
+//    }
 
-    /**
-     * Check if the record is already saved.
-     * We only save a record per day.
-     *
-     * @param Clan $clan
-     *
-     * @return bool
-     * @internal param of $array clan info $item
-     *
-     */
-    private function isClanCreatedToday(Clan $clan)
-    {
-        $foundClan = Clan::where([
-            'tag' => $clan->tag
-        ])->orderBy('id', 'DESC')->first();
-        if ($foundClan == null) return false;
-
-        $createTime = new Carbon($foundClan->created_at);
-        if ($createTime->isSameDay(Carbon::now())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    /**
+//     * Check if the record is already saved.
+//     * We only save a record per day.
+//     *
+//     * @param Clan $clan
+//     *
+//     * @return bool
+//     * @internal param of $array clan info $item
+//     *
+//     */
+//    private function isClanCreatedToday(Clan $clan)
+//    {
+//        $foundClan = Clan::where([
+//            'tag' => $clan->tag
+//        ])->orderBy('id', 'DESC')->first();
+//        if ($foundClan == null) return false;
+//
+//        $createTime = new Carbon($foundClan->created_at);
+//        if ($createTime->isSameDay(Carbon::now())) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
     /**
      * Add the clans into monitorClans table.
@@ -173,5 +173,23 @@ class DevController extends Controller
                 MonitoredClan::create($clan->getAttributes());
             }
         }
+    }
+
+
+    /**
+     * Save the Clans info asynchronous.
+     */
+    public function saveClans()
+    {
+        $clan = MonitoredClan::find(1);
+        $job = (new SaveClanJob($clan->tag))->onConnection('sqs')->onQueue('coc_save_clan_data');
+        dispatch($job);
+//
+//        $monitoredClans = MonitoredClan::all();
+//        foreach ($monitoredClans as $monitoredClan) {
+//            /** @var Clan $monitoredClan $job */
+//            $job = (new SaveClanJob($monitoredClan->tag))->onConnection('sqs')->onQueue('coc_save_clan_data');
+//            dispatch($job);
+//        }
     }
 }
