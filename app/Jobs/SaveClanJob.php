@@ -36,8 +36,8 @@ class SaveClanJob extends Job implements ShouldQueue
      */
     public function handle()
     {
-        File::append(app_path() . '/listener.log',
-            Carbon::now()->toDateTimeString() . "Handling clan: " . $this->clanTag . PHP_EOL);
+        //        File::append(app_path() . '/listener.log',
+        //            Carbon::now()->toDateTimeString() . "Handling clan: " . $this->clanTag . PHP_EOL);
         $cocService = new CocService();
         list($clan, $members) = $cocService->getClanByTag($this->clanTag);
         /** @var Clan $clan */
