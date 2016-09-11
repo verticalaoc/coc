@@ -1,6 +1,7 @@
 @extends('clan')
 
 @section('content')
+<div>
 <h2>
     部落詳細資訊 - {{ $clan->name }}
 </h2>

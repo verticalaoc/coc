@@ -66,13 +66,19 @@
                 <a class="nav-link" href="{{url('/queryClanRankings')}}">查詢部落排名</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{url('/queryMember')}}">查詢部落成員</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{url('/about')}}">關於</a>
             </li>
         </ul>
     </nav>
     @yield('content')
-    本內容與Supercell沒有任何關聯，Supercell對此不提供任何保證、贊助或特別準許，也不對此承擔任何責任。<br>
-    更多信息，請參閱Supercell 玩家內容條款：www.supercell.com/fan-content-policy
+    <hr>
+    <br>
+    <small class="form-text text-muted">
+        本內容與Supercell沒有任何關聯，Supercell對此不提供任何保證、贊助或特別準許，也不對此承擔任何責任。更多信息，請參閱Supercell 玩家內容條款：www.supercell.com/fan-content-policy
+    </small>
 </div>
 </body>
 </html>

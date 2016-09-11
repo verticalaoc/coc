@@ -1,6 +1,7 @@
 @extends('clan')
 
 @section('content')
+<div>
 <h2>
     Member - {{$memberList[0]->name}} 詳細資訊
 </h2>

@@ -18,6 +18,13 @@ class ClanController extends Controller
         return view('clan.index');
     }
 
+    public function queryClans()
+    {
+        $cocService = new CocService();
+        $locations = $cocService->getLocations();
+        return view('clan.queryClans', compact('locations'));
+    }
+
     public function clans(\Illuminate\Http\Request $request)
     {
         $this->validate($request,
@@ -50,6 +57,16 @@ class ClanController extends Controller
         return view('clan.clan', compact('clans'));
     }
 
+    public function queryMember()
+    {
+        return view('clan.queryMember');
+    }
+
+    public function queryMemberWithTag(\Illuminate\Http\Request $request) {
+        $input = $request->all();
+        return $this->member($input['memberTag']);
+    }
+
     public function members($clanId)
     {
         $clan = Clan::find($clanId);
@@ -67,18 +84,11 @@ class ClanController extends Controller
             }
             $clan = Clan::find($member->clanId);
             $clanList[$member->clanId] = $clan;
-//            dd($clan);
         }
-        //        dd($memberList);
         return view('clan.member', compact('memberList', 'clanList'));
     }
 
-    public function queryClans()
-    {
-        $cocService = new CocService();
-        $locations = $cocService->getLocations();
-        return view('clan.queryClans', compact('locations'));
-    }
+
 
     /**
      * Get the clans from DB

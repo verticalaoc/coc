@@ -24,7 +24,9 @@ Route::get('/queryClans', 'ClanController@queryClans');
 Route::get('/clans', 'ClanController@clans');
 
 // member
+Route::get('/queryMember', 'ClanController@queryMember');
 Route::get('/member/{memberTag}', 'ClanController@member');
+Route::get('queryMemberWithTag', 'ClanController@queryMemberWithTag');
 
 // others
 Route::get('/clans/{clanTag}/members', 'ClanController@members');
