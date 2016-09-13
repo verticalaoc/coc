@@ -14,9 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Inspire::class,
-        Commands\CollectClanData::class,
-        Commands\CollectVipClanData::class,
         Commands\AddClanToMonitor::class,
+        Commands\SaveClans::class,
     ];
 
     /**

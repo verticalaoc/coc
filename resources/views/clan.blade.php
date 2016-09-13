@@ -1,8 +1,8 @@
 <html>
 
 <head>
-    <title>部落衝突 Clash of Clans 台灣部落/部落排名/成員/查詢/搜尋</title>
-    <meta name="description" content="提供查詢 Clash of Clans 的網頁查詢, 包含查詢部落, 查詢部落排名 和 查詢部落成員資料. 同時在首頁也提供了官方最新的資訊.">
+    <title>查詢/搜尋/部落/部落排名/成員/比較 - 部落衝突 Clash of Clans - COC</title>
+    <meta name="description" content="部落衝突 Clash of Clans - COC - 部落/排名/成員歷史資料的搜尋比較, 同時也提供了官方最新的資訊.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="/media/images/favicon.png">
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.datatables.net/rss.xml">

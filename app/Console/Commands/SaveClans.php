@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use App\Http\Controllers\DevController;
 use Illuminate\Console\Command;
 
-class CollectVipClanData extends Command
+class SaveClans extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:collectVip';
+    protected $signature = 'dev:saveclans';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'collect VIP clan data';
+    protected $description = 'send SQS event to save clan';
 
     /**
      * Create a new command instance.
@@ -38,6 +38,6 @@ class CollectVipClanData extends Command
     public function handle()
     {
         $dev = new DevController();
-        $dev->saveVipClans();
+        $dev->saveClans();
     }
 }
