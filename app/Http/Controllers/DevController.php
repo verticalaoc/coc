@@ -16,7 +16,7 @@ class DevController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function monitorTopClans()
+    public function collectClansToMonitor()
     {
         $cocService = new CocService();
 
@@ -33,7 +33,7 @@ class DevController extends Controller
                 $input['minMembers'] = $members;
                 $input['maxMembers'] = $members;
                 $clans = $cocService->getCLans($input);
-                $this->monitorClans($clans);
+                $this->addClansToMonitoredDbTable($clans);
             }
         }
 
@@ -47,38 +47,7 @@ class DevController extends Controller
         foreach ($locationIds as $locationId) {
             $input['locationId'] = $locationId;
             $clans = $cocService->getClanRankings($input);
-            $this->monitorClans($clans);
-        }
-    }
-
-    /**
-     * Query the clans information and save from monitoredClans.
-     */
-    public function saveVipClans()
-    {
-        $vipClansTag = array();
-        $vipClansTag[] = "#Y2CP999Y"; // 絕地逆襲 3盟
-        $vipClansTag[] = "#YV2P2VV8"; // 台灣Formosa
-
-        $cocService = new CocService();
-        foreach ($vipClansTag as $tag) {
-            list($clan, $members) = $cocService->getClanByTag($tag);
-            /** @var Clan $clan */
-
-            // sum donations
-            $donations = $this->getDonationsFromMembers($members);
-            $clan->donations = $donations;
-            Clan::create($clan->getAttributes());
-
-            $createdClan = Clan::where(['tag' => $clan->tag])
-                ->orderBy('id', 'DESC')->first();
-
-            // create members
-            foreach ($members as $member) {
-                /** @var Member member */
-                $member->clanId = $createdClan->id;
-                Member::create($member->getAttributes());
-            }
+            $this->addClansToMonitoredDbTable($clans);
         }
     }
 
@@ -98,7 +67,7 @@ class DevController extends Controller
      *
      * @return array
      */
-    public function monitorClans($clans)
+    public function addClansToMonitoredDbTable($clans)
     {
         foreach ($clans as $clan) {
             /** @var ClanRanking $clan */

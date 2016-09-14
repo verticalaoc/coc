@@ -12,14 +12,14 @@ class AddClanToMonitor extends Command
      *
      * @var string
      */
-    protected $signature = 'command:addMonitor';
+    protected $signature = 'dev:collectClansToMonitor';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'collect VIP clan data';
+    protected $description = 'add more clans to monitor';
 
     /**
      * Create a new command instance.
@@ -38,6 +38,6 @@ class AddClanToMonitor extends Command
     public function handle()
     {
         $dev = new DevController();
-        $dev->monitorTopClans();
+        $dev->collectClansToMonitor();
     }
 }
