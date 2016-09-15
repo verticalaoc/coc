@@ -6,7 +6,6 @@ use App\Clan;
 use App\ClanRanking;
 use App\Http\CocService;
 use App\Jobs\SaveClanJob;
-use App\Member;
 use App\MonitoredClan;
 
 class DevController extends Controller
@@ -20,44 +19,36 @@ class DevController extends Controller
     {
         $cocService = new CocService();
 
-        $locationIds = [
-            "32000228", // Taiwan
-            "32000056", // China
-        ];
-        // monitorTaiwanTopClans
+        // Query the clans by location & level
+        $queryPlans = array();
+        $queryPlans[] = ["32000228", 5]; // Taiwan, level 5+
+        $queryPlans[] = ["32000056", 7]; // China, level 7+
         $input = array();
-        foreach ($locationIds as $locationId) {
+        foreach ($queryPlans as $queryPlan) {
+            $locationId = $queryPlan[0];
+            $level = $queryPlan[1];
             $input['locationId'] = $locationId;
-            $input['minClanLevel'] = "7";
+            $input['minClanLevel'] = $level;
             for ($members = 30; $members <= 50; $members++) {
                 $input['minMembers'] = $members;
                 $input['maxMembers'] = $members;
-                $clans = $cocService->getCLans($input);
+                $clans = $cocService->getClans($input);
                 $this->addClansToMonitoredDbTable($clans);
             }
         }
 
+        // Get the top ranking clans by location
         $locationIds = [
             "32000228", // Taiwan
             "32000006", // International
             "32000056", // China
         ];
-        // monitorTopClans
         $input = array();
         foreach ($locationIds as $locationId) {
             $input['locationId'] = $locationId;
             $clans = $cocService->getClanRankings($input);
             $this->addClansToMonitoredDbTable($clans);
         }
-    }
-
-    private function getDonationsFromMembers($members)
-    {
-        $sum = 0;
-        foreach ($members as $member) {
-            $sum += $member->donations;
-        }
-        return $sum;
     }
 
     /**
@@ -78,16 +69,11 @@ class DevController extends Controller
         }
     }
 
-
     /**
      * Save the Clans info asynchronous.
      */
     public function saveClans()
     {
-        //        $clan = MonitoredClan::find(1);
-        //        $job = (new SaveClanJob($clan->tag))->onConnection('sqs')->onQueue('coc_save_clan_data');
-        //        dispatch($job);
-
         $monitoredClans = MonitoredClan::all();
         foreach ($monitoredClans as $monitoredClan) {
             /** @var Clan $monitoredClan $job */

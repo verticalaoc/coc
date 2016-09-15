@@ -40,14 +40,19 @@ class ClanController extends Controller
         $cocService = new CocService();
         $clans = $cocService->getClans($input);
         $clanExistsInDb = array();
+        $newClans = array();
         foreach ($clans as $clan) {
             $found = Clan::where('tag', $clan->tag)->orderBy('id', 'desc')->first();
             if ($found) {
                 $clanExistsInDb[$clan->tag] = true;
+                $clan->description = $found->description;
+                $clan->donations = $found->donations;
             } else {
                 $clanExistsInDb[$clan->tag] = false;
             }
+            $newClans[] = $clan;
         }
+        $clans = $newClans;
         return view('clan.clans', compact('clans', 'input', 'clanExistsInDb'));
     }
 

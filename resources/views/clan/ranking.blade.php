@@ -9,8 +9,8 @@
     <thead>
     <tr>
         <th>旗幟</th>
-        <th>標籤</th>
         <th>名稱</th>
+        <th>標籤</th>
         <!--        <th>位置</th>-->
         <th>等級</th>
         <th>成員</th>
@@ -23,6 +23,7 @@
     @foreach ($clans as $clan)
     <tr>
         <td><img src="{{$clan->badgeUrlsSmall}}"></td>
+        <td>{{$clan->name}}</td>
         <td>
             @if ($clanExistsInDb[$clan->tag])
             <a href="{{ action('ClanController@clan', [urlencode($clan->tag)]) }}">{{$clan->tag}}</a>
@@ -30,7 +31,6 @@
             {{$clan->tag}}
             @endif
         </td>
-        <td>{{$clan->name}}</td>
         <!--        <td>{{$clan->locationName}}</td>-->
         <td>{{$clan->clanLevel}}</td>
         <td>{{$clan->members}}</td>

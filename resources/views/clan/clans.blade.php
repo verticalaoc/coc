@@ -7,11 +7,53 @@
 <hr>
 <table id="clans" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
-    @include('clan.include.clansOverviewTitle')
+    <tr>
+        <!--    <th>日期</th>-->
+        <th>旗幟</th>
+        <!--    <th>location</th>-->
+        <th>名稱</th>
+        <th>tag</th>
+        <!--    <th>type</th>-->
+        <th>等級</th>
+        <th>總分數</th>
+        <!--    <th>requiredTrophies</th>-->
+        <!--    <th>warFrequency</th>-->
+        <th>對戰連勝次數</th>
+        <!--    <th>warWins</th>-->
+        <!--        <th>isWarLogPublic</th>-->
+        <th>成員</th>
+        <th>總捐兵數</th>
+        <th>描述</th>
+    </tr>
     </thead>
     <tbody>
     @foreach ($clans as $clan)
-    @include('clan.include.clansOverviewContent')
+    <tr>
+        <!--    <td>{{$clan->created_at}}</td>-->
+        <td><img src="{{$clan->badgeUrlsSmall}}"></td>
+        <!--    <td>{{$clan->locationName}}</td>-->
+        <td>
+            {{$clan->name}}
+        </td>
+        <td>
+            @if ($clanExistsInDb[$clan->tag])
+            <a href="{{action('ClanController@clan',[urlencode($clan->tag)])}}">{{$clan->tag}}</a>
+            @else
+            {{$clan->tag}}
+            @endif
+        </td>
+        <!--    <td>{{$clan->type}}</td>-->
+        <td>{{$clan->clanLevel}}</td>
+        <td>{{$clan->clanPoints}}</td>
+        <!--    <td>{{$clan->requiredTrophies}}</td>-->
+        <!--    <td>{{$clan->warFrequency}}</td>-->
+        <td>{{$clan->warWinStreak}}</td>
+        <!--    <td>{{$clan->warWins}}</td>-->
+        <!--        <td>{{$clan->isWarLogPublic}}</td>-->
+        <td>{{$clan->members}}</td>
+        <td>{{$clan->donations}}</td>
+        <td>{{$clan->description}}</td>
+    </tr>
     @endforeach
     </tbody>
 </table>

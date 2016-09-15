@@ -28,7 +28,7 @@ class CocService
     /**
      * Get clans - /v1/clans
      *
-     * @param $input the input for query.
+     * @param array $input input for query.
      *
      * @return array
      */
