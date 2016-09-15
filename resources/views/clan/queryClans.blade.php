@@ -1,7 +1,6 @@
 @extends('clan')
 
 @section('content')
-
 @if (count($errors) > 0)
 <div class="alert alert-danger">
     <ul>
@@ -11,7 +10,6 @@
     </ul>
 </div>
 @endif
-
 <h2>
     搜尋部落
 </h2>
@@ -99,5 +97,4 @@
     </div>
 </form>
 <hr>
-
 @stop

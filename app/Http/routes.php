@@ -53,3 +53,5 @@ Route::get('/dev/saveClans', 'DevController@saveClans');
 
 // [dev] collect ignore clans
 Route::get('/dev/collectIgnoreClans', 'DevController@collectIgnoreClans');
+
+Route::get('/adTest', 'DevController@adTest');

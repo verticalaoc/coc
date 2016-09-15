@@ -92,4 +92,8 @@ class DevController extends Controller
             dispatch($job);
         }
     }
+
+    public function adTest() {
+        return view('adTest');
+    }
 }

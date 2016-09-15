@@ -56,6 +56,7 @@
 </head>
 
 <body>
+@include('clan.ad.ad1')
 <div class="container">
     <nav class="navbar navbar-light bg-faded">
         <a class="navbar-brand" href="{{url('/')}}">菜菜子的部落衝突 Clash of Clans</a>
@@ -84,5 +85,6 @@
         本內容與Supercell沒有任何關聯，Supercell對此不提供任何保證、贊助或特別準許，也不對此承擔任何責任。更多信息，請參閱Supercell 玩家內容條款：www.supercell.com/fan-content-policy
     </small>
 </div>
+<script type="text/javascript" src="http://m.vpon.com/sdk/vpadn-sdk.js"> </script>
 </body>
 </html>
