@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>查詢/搜尋/部落/部落排名/成員/比較 - 部落衝突 Clash of Clans - COC</title>
+    <title>《菜菜子的部落衝突》Clash of Clans - 查詢/搜尋/部落/部落排名/成員/比較 - COC</title>
     <meta name="description" content="部落衝突 Clash of Clans - COC - 部落/排名/成員歷史資料的搜尋比較, 同時也提供了官方最新的資訊.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="/media/images/favicon.png">
@@ -58,7 +58,7 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-light bg-faded">
-        <a class="navbar-brand" href="{{url('/')}}">部落衝突 Clash of Clans</a>
+        <a class="navbar-brand" href="{{url('/')}}">菜菜子的部落衝突 Clash of Clans</a>
         <ul class="nav navbar-nav">
             <li class="nav-item active">
                 <a class="nav-link" href="{{url('/queryClans')}}">查詢部落</a>
@@ -68,6 +68,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{url('/queryMember')}}">查詢部落成員</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url('/faq')}}">常見問題</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{url('/about')}}">關於</a>

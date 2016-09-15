@@ -14,6 +14,9 @@
 // index
 Route::get('/', 'ClanController@index');
 
+// FAQ
+Route::get('/faq', 'ClanController@faq');
+
 // about
 Route::get('/about', 'ClanController@about');
 
@@ -47,3 +50,6 @@ Route::get('/dev/monitorTopClans', 'DevController@monitorTopClans');
 
 // [dev] save clans async
 Route::get('/dev/saveClans', 'DevController@saveClans');
+
+// [dev] collect ignore clans
+Route::get('/dev/collectIgnoreClans', 'DevController@collectIgnoreClans');

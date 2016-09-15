@@ -3,7 +3,10 @@
 @section('content')
 
 <hr>
-All news below are from <a href="https://clashofclans.com/zh/blog">《部落衝突》部落格</a>
+<h1>《部落衝突》最新動態</h1>
+<small class="form-text text-muted">
+    All news below are from <a href="https://clashofclans.com/zh/blog">《部落衝突》部落格</a>
+</small>
 <hr>
 @include('clan.blog.20160907')
 <hr>

@@ -150,6 +150,18 @@ class ClanController extends Controller
         return $clans;
     }
 
+
+    /**
+     *  Show faq page
+     */
+    public function faq()
+    {
+        return view('clan.faq');
+    }
+
+    /**
+     *  Show about page
+     */
     public function about()
     {
         return view('clan.about');
