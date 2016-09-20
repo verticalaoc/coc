@@ -27,8 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->command('command:collect')
-//            ->cron('50 1 * * * *')
-//            ->appendOutputTo(storage_path('logs/schedule.log'));
+        // send event to sqs to save clan info
+        $schedule->command('dev:saveclans')->dailyAt('00:10');
+
+        // perform listener to consume the events
+        $schedule->command('queue:work sqs --daemon')->everyThirtyMinutes()->withoutOverlapping();
     }
 }
