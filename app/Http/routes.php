@@ -29,6 +29,15 @@ Route::get('/queryMember', 'ClanController@queryMember');
 Route::get('/member/{memberTag}', 'ClanController@member');
 Route::get('queryMemberWithTag', 'ClanController@queryMemberWithTag');
 
+// monitored clans
+Route::get('/monitoredClans', 'MonitoredClanController@monitoredClans');
+
+// user input monitored clans
+Route::get('/userInputMonitoredClans', 'MonitoredClanController@userInputMonitoredClans');
+Route::get('/userInputMonitoredClans/add', 'MonitoredClanController@pageAddUserInputMonitoredClans');
+Route::post('/userInputMonitoredClans', 'MonitoredClanController@addUserInputMonitoredClans');
+
+
 // others
 Route::get('/clans/{clanTag}/members', 'ClanController@members');
 Route::get('/clans/{clanTag}/warlogs', 'ClanController@warlogs');
