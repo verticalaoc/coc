@@ -15,8 +15,9 @@ class CreateUserInputMonitoredClanTable extends Migration
         Schema::create('userInputMonitoredClans', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->string('tag');
+            $table->string('name');
             $table->index('tag');
-            $table->string("name");
         });
     }
 
