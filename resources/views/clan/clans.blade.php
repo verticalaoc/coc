@@ -12,7 +12,7 @@
         <th>旗幟</th>
         <!--    <th>location</th>-->
         <th>名稱</th>
-        <th>tag</th>
+        <th>部落標籤</th>
         <!--    <th>type</th>-->
         <th>等級</th>
         <th>總分數</th>

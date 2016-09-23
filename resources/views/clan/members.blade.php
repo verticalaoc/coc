@@ -13,7 +13,7 @@
     <tr>
         <td>聯盟</td>
         <td>名稱</td>
-        <td>tag</td>
+        <td>成員標籤</td>
         <td>職位</td>
         <td>經驗</td>
         <td>獎杯數</td>
@@ -21,6 +21,7 @@
         <!--        <td>previousClanRank</td>-->
         <td>捐兵數</td>
         <td>收兵數</td>
+        <td>捐收比</td>
         <!--    <td>leagueId</td>-->
         <!--    <td>leagueName</td>-->
     </tr>
@@ -38,6 +39,7 @@
         <!--        <td>{{$member->previousClanRank}}</td>-->
         <td>{{$member->donations}}</td>
         <td>{{$member->donationsReceived}}</td>
+        <td>{{$member->donationRatio}}</td>
         <!--    <td>{{$member->leagueId}}</td>-->
         <!--    <td>{{$member->leagueName}}</td>-->
     </tr>

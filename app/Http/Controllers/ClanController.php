@@ -76,12 +76,14 @@ class ClanController extends Controller
     {
         $clan = Clan::find($clanId);
         $memberList = Member::where(['clanId' => $clanId])->get();
+        $memberList = $this->appendDonationRatio($memberList);
         return view('clan.members', compact('clan', 'memberList'));
     }
 
     public function member($memberTag)
     {
         $memberList = Member::where('tag', $memberTag)->get();
+        $memberList = $this->appendDonationRatio($memberList);
         $clanList = array();
         foreach ($memberList as $member) {
             if (array_key_exists($member->clanId, $clanList)) {
@@ -166,4 +168,22 @@ class ClanController extends Controller
     {
         return view('clan.about');
     }
+
+    function getRatio($donations, $donationsReceived)
+    {
+        if ($donationsReceived == 0) return $donations;
+        return round($donations / $donationsReceived, 2);
+    }
+
+    private function appendDonationRatio($memberList)
+    {
+        $memberListWithDonationRatio = [];
+        foreach($memberList as $member) {
+            /** @var \App\Member $member */
+            $member->donationRatio = $this->getRatio($member->donations, $member->donationsReceived);
+            $memberListWithDonationRatio []= $member;
+        }
+        return $memberListWithDonationRatio;
+    }
+
 }

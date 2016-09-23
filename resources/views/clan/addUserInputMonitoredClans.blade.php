@@ -10,6 +10,14 @@
     </ul>
 </div>
 @endif
+
+@if (Session::get('message'))
+<div class="alert alert-success">
+    <ul>
+        <li>{{ Session::get('message') }}</li>
+    </ul>
+</div>
+@endif
 <h2>
     新增要追蹤的部落
 </h2>

@@ -10,11 +10,24 @@
     <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>
     <script type="text/javascript" class="init">
         $(document).ready(function () {
-            $('#clans').DataTable();
+            $('#clans').DataTable({
+                "order": [[ 0, "desc" ]],
+                "pageLength": 50
+            });
         });
 
         $(document).ready(function () {
-            $('#members').DataTable();
+            $('#members').DataTable({
+                "order": [[ 5, "desc" ]],
+                "pageLength": 50
+            });
+        });
+
+        $(document).ready(function () {
+            $('#member').DataTable({
+                "order": [[ 0, "desc" ]],
+                "pageLength": 50
+            });
         });
     </script>
     <style type="text/css" class="init">

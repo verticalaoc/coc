@@ -7,6 +7,8 @@ use App\Location;
 use App\Member;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Redirect;
+use Mockery\CountValidator\Exception;
 use Psy\Exception\RuntimeException;
 
 class CocService

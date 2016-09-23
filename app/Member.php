@@ -17,6 +17,7 @@ class Member extends Model
         'previousClanRank',
         'donations',
         'donationsReceived',
+        'donationRatio',
         'leagueId',
         'leagueName',
         'leagueIconUrlsSmall',

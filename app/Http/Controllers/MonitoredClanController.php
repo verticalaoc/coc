@@ -3,186 +3,159 @@
 namespace App\Http\Controllers;
 
 use App\Clan;
+use App\ClanRanking;
 use App\Http\CocService;
-use App\Member;
 use App\MonitoredClan;
 use App\UserInputMonitoredClan;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use Carbon\Carbon;
+use GuzzleHttp\Exception\RequestException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Redirect;
 
 class MonitoredClanController extends Controller
 {
-    public function monitoredClans() {
-        $monitoredClans = MonitoredClan::all();
+    private $messages = [
+        '404' => '輸入的部落標籤不存在'
+    ];
+
+    public function monitoredClans()
+    {
+        $monitoredClans = $this->getAllMonitoredClans();
         return view('clan.monitoredClans', compact('monitoredClans'));
     }
 
-    public function pageAddUserInputMonitoredClans(){
+    public function pageAddUserInputMonitoredClans()
+    {
         return view('clan.addUserInputMonitoredClans');
     }
 
-    public function userInputMonitoredClans() {
+    public function userInputMonitoredClans()
+    {
         $userInputMonitoredClans = UserInputMonitoredClan::all();
         return view('clan.userInputMonitoredClans', compact('userInputMonitoredClans'));
     }
 
-    public function addUserInputMonitoredClans(\Illuminate\Http\Request $request) {
+    public function addUserInputMonitoredClans(\Illuminate\Http\Request $request)
+    {
         $input = $request->all();
-        dd($input);
+        $tag = $input['tag'];
+        $cocService = new CocService();
+        try {
+            /** @var MonitoredClan $clan */
+            list($clan, $members) = $cocService->getClanByTag($tag);
+        } catch (RequestException $e) {
+            return Redirect::back()->withErrors([$this->messages[$e->getResponse()->getStatusCode()]]);
+        }
+
+        $foundClan = false;
+        try {
+            $foundClan = UserInputMonitoredClan::where('tag', $tag)->first();
+        } catch (QueryException $e) {
+            // insert into
+
+            dd($e->getMessage());
+        }
+        if($foundClan) {
+            return Redirect::back()->withErrors(['此部落已正在追蹤中']);
+        } else {
+            UserInputMonitoredClan::create($clan->getAttributes());
+            return Redirect::back()->with('message', '新增成功！');
+        }
     }
 
-    ///////////
-
-    const API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImI5MWE2OWVmLWU5ZDgtNGY5Ni1iOTc2LWU2ZmM0NjEyY2VjNiIsImlhdCI6MTQ3MjE2OTU5OSwic3ViIjoiZGV2ZWxvcGVyLzMzYjI0NmNlLTg3MTMtNzllYi1iZTY0LWJlZjk3YWQwMzYwZiIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjIwMi44OS4xMjEuMTYiLCIxLjM0LjIxNS4xMSIsIjEuMzQuMjE1LjE1IiwiNTIuNzYuOTMuMTcyIl0sInR5cGUiOiJjbGllbnQifV19.dO67BRlJUXM4aWDd0RTD9ajRoIREOCocnftThTfMmOabEG57FrgHW2WPHdrS8G0IJ7rXZq771d57sUwnGiGX6g";
-
-
-    public function queryClans()
+    /**
+     * Query Top Clans and insert the records into monitoredClan table
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function collectClansToMonitor()
     {
         $cocService = new CocService();
-        $locations = $cocService->getLocations();
-        return view('clan.queryClans', compact('locations'));
+
+        // Query the clans by location & level
+        $queryPlans = array();
+        $queryPlans[] = ["32000228", 5]; // Taiwan, level 5+
+        //$queryPlans[] = ["32000056", 7]; // China, level 7+
+        $input = array();
+        foreach ($queryPlans as $queryPlan) {
+            $locationId = $queryPlan[0];
+            $level = $queryPlan[1];
+            $input['locationId'] = $locationId;
+            $input['minClanLevel'] = $level;
+            for ($members = 30; $members <= 50; $members++) {
+                $input['minMembers'] = $members;
+                $input['maxMembers'] = $members;
+                $clans = $cocService->getClans($input);
+                $this->addClansToMonitoredDbTable($clans);
+            }
+        }
+
+        // Get the top ranking clans by location
+        $locationIds = [
+            "32000228", // Taiwan
+            "32000006", // International
+            "32000056", // China
+        ];
+        $input = array();
+        foreach ($locationIds as $locationId) {
+            $input['locationId'] = $locationId;
+            $clans = $cocService->getClanRankings($input);
+            $this->addClansToMonitoredDbTable($clans);
+        }
     }
 
-    public function clans(\Illuminate\Http\Request $request)
+    /**
+     * Add the clans into monitorClans table.
+     *
+     * @param $clans
+     *
+     * @return array
+     */
+    public function addClansToMonitoredDbTable($clans)
     {
-        $this->validate($request,
-            [
-                'name' => 'min:4',
-            ],
-            [
-                'name.min' => '部落名稱長度不可小於 4',
-            ]
-        );
-
-        $input = $request->all();
-        $cocService = new CocService();
-        $clans = $cocService->getClans($input);
-        $clanExistsInDb = array();
-        $newClans = array();
         foreach ($clans as $clan) {
-            $found = Clan::where('tag', $clan->tag)->orderBy('id', 'desc')->first();
-            if ($found) {
-                $clanExistsInDb[$clan->tag] = true;
-                $clan->description = $found->description;
-                $clan->donations = $found->donations;
-            } else {
-                $clanExistsInDb[$clan->tag] = false;
+            /** @var ClanRanking $clan */
+            $foundClan = MonitoredClan::where('tag', $clan->tag)->first();
+            if (!$foundClan) {
+                MonitoredClan::create($clan->getAttributes());
             }
-            $newClans[] = $clan;
         }
-        $clans = $newClans;
-        return view('clan.clans', compact('clans', 'input', 'clanExistsInDb'));
     }
 
-    public function clan($clanTag)
+    /**
+     * Check if the clan existing in the array of clans.
+     *
+     * @param Array $monitoredClans         array of clans
+     * @param Clan  $userInputMonitoredClan the target clan
+     *
+     * @return bool
+     */
+    private function isContained($monitoredClans, $userInputMonitoredClan)
     {
-        $clans = Clan::where('tag', $clanTag)->orderBy('id', 'DESC')->get();
-        return view('clan.clan', compact('clans'));
+        foreach($monitoredClans as $monitoredClan) {
+            if($monitoredClan->tag == $userInputMonitoredClan->tag) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public function queryMember()
+    /**
+     * Get all monitored clans, including user input monitored clans.
+     *
+     * @return array|\Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAllMonitoredClans()
     {
-        return view('clan.queryMember');
-    }
+        $monitoredClans = MonitoredClan::all();
+        $userInputMonitoredClans = UserInputMonitoredClan::all();
 
-    public function queryMemberWithTag(\Illuminate\Http\Request $request) {
-        $input = $request->all();
-        return $this->member($input['memberTag']);
-    }
-
-    public function members($clanId)
-    {
-        $clan = Clan::find($clanId);
-        $memberList = Member::where(['clanId' => $clanId])->get();
-        return view('clan.members', compact('clan', 'memberList'));
-    }
-
-    public function member($memberTag)
-    {
-        $memberList = Member::where('tag', $memberTag)->get();
-        $clanList = array();
-        foreach ($memberList as $member) {
-            if (array_key_exists($member->clanId, $clanList)) {
+        foreach ($userInputMonitoredClans as $userInputMonitoredClan) {
+            if ($this->isContained($monitoredClans, $userInputMonitoredClan)) {
                 continue;
+            } else {
+                $monitoredClans[] = new MonitoredClan($userInputMonitoredClan->getAttributes());
             }
-            $clan = Clan::find($member->clanId);
-            $clanList[$member->clanId] = $clan;
         }
-        return view('clan.member', compact('memberList', 'clanList'));
-    }
-
-
-
-    /**
-     * Get the clans from DB
-     *
-     */
-    public function clansFromDb()
-    {
-        $clans = Clan::orderBy('clanPoints', 'DESC')->limit(10)->get();
-        return view('clan.clans', compact('clans'));
-    }
-
-    public function warlogs($clanTag)
-    {
-        return $clanTag;
-    }
-
-    public function locations()
-    {
-        $cocService = new CocService();
-        return $cocService->getLocations();
-    }
-
-    /**
-     * Transform member data from array to Member models.
-     *
-     * @param $array
-     *
-     * @return array
-     */
-    public function memberArrayToModels($array)
-    {
-        $members = array();
-        foreach ($array as $data) {
-            $member = new Member($data);
-            $members[] = $member;
-        }
-        return $members;
-    }
-
-    /**
-     * Transform clan data from array to Clan models.
-     *
-     * @param $array
-     *
-     * @return array
-     */
-    public function clanArrayToModels($array)
-    {
-        $clans = array();
-        foreach ($array as $data) {
-            $clan = new Clan($data);
-            $clans[] = $clan;
-        }
-        return $clans;
-    }
-
-
-    /**
-     *  Show faq page
-     */
-    public function faq()
-    {
-        return view('clan.faq');
-    }
-
-    /**
-     *  Show about page
-     */
-    public function about()
-    {
-        return view('clan.about');
+        return $monitoredClans;
     }
 }

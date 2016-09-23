@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\DevController;
+use App\Http\Controllers\MonitoredClanController;
 use Illuminate\Console\Command;
 
 class AddClanToMonitor extends Command
@@ -37,7 +38,7 @@ class AddClanToMonitor extends Command
      */
     public function handle()
     {
-        $dev = new DevController();
-        $dev->collectClansToMonitor();
+        $c = new MonitoredClanController();
+        $c->collectClansToMonitor();
     }
 }

@@ -55,7 +55,7 @@ Route::get('/clansFromDb', 'ClanController@clansFromDb');
 Route::get('/locations', 'ClanController@locations');
 
 // [dev] query the top clans and insert into monitoredClans table
-Route::get('/dev/monitorTopClans', 'DevController@monitorTopClans');
+Route::get('/dev/collectClansToMonitor', 'DevController@collectClansToMonitor');
 
 // [dev] save clans async
 Route::get('/dev/saveClans', 'DevController@saveClans');
