@@ -3,27 +3,11 @@
 @section('content')
 
 <hr>
-<h1>《部落衝突》最新動態</h1>
-<small class="form-text text-muted">
-    All news below are from <a href="https://clashofclans.com/zh/blog">《部落衝突》部落格</a>
-</small>
+<h1>《菜菜子的部落衝突》最新消息</h1>
 <hr>
-@include('clan.blog.20160907')
-<hr>
-@include('clan.blog.20160901')
-<hr>
-@include('clan.blog.20160822')
-<hr>
-@include('clan.blog.20160524')
-<hr>
-@include('clan.blog.20160515')
-<hr>
-@include('clan.blog.20160429')
-<hr>
-@include('clan.blog.20160428')
-<hr>
-@include('clan.blog.20160415')
-<hr>
-
+[20160928] <br>
+伺服器出了一些狀況, 經過昨天緊急修復後, 目前已恢復正常.<br>
+造成的影響是 09/24~27 這三天會沒有記錄. <br>
+請大家見諒嚕～ <br>
 @stop
 

@@ -72,9 +72,12 @@
 <!--@include('clan.ad.ad1')-->
 <div class="container">
     <nav class="navbar navbar-light bg-faded">
-        <a class="navbar-brand" href="{{url('/')}}">菜菜子的部落衝突 Clash of Clans</a>
+<!--        <a class="navbar-brand" href="{{url('/')}}">最新消息</a>-->
         <ul class="nav navbar-nav">
             <li class="nav-item active">
+                <a class="nav-link" href="{{url('/')}}">最新消息</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{url('/queryClans')}}">查詢部落</a>
             </li>
             <li class="nav-item">
