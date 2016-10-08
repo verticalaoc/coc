@@ -8,6 +8,7 @@ use App\Member;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class ClanController extends Controller
 {
@@ -181,11 +182,11 @@ class ClanController extends Controller
 
     private function appendDonationRatio($memberList)
     {
-        $memberListWithDonationRatio = [];
+        $memberListWithDonationRatio = new Collection;
         foreach($memberList as $member) {
             /** @var \App\Member $member */
             $member->donationRatio = $this->getRatio($member->donations, $member->donationsReceived);
-            $memberListWithDonationRatio []= $member;
+            $memberListWithDonationRatio->push($member);
         }
         return $memberListWithDonationRatio;
     }
