@@ -13,6 +13,9 @@
 * 可查詢部落成員資料＆歷史紀錄 <br>
 * 查詢部落資料&歷史紀錄 <br>
 <br>
+如果有任何建議可以透過以下 email 讓我知道喔～<br>
+<a href="mailto:coc.mynanako.com@gmail.com">coc.mynanako.com@gmail.com</a><br>
+<br>
 全面開戰！<br>
 <br>
 @stop
