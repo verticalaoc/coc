@@ -1,6 +1,8 @@
 @extends('clan')
 
 @section('content')
+
+@if (!$clans->isEmpty())
 <h2>
     <div>
         部落歷史紀錄 - {{$clans[0]->name}}
@@ -58,4 +60,11 @@
     </tbody>
     <br><br>
 </table>
+@else
+<h2>
+    <div>
+        部落歷史紀錄不存在
+    </div>
+</h2>
+@endif
 @stop

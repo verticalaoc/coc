@@ -76,14 +76,18 @@ class ClanController extends Controller
     {
         $clan = Clan::find($clanId);
         $memberList = Member::where(['clanId' => $clanId])->get();
-        $memberList = $this->appendDonationRatio($memberList);
+        if (!empty($memberList)) {
+            $memberList = $this->appendDonationRatio($memberList);
+        }
         return view('clan.members', compact('clan', 'memberList'));
     }
 
     public function member($memberTag)
     {
         $memberList = Member::where('tag', $memberTag)->get();
-        $memberList = $this->appendDonationRatio($memberList);
+        if (!$memberList->isEmpty()) {
+            $memberList = $this->appendDonationRatio($memberList);
+        }
         $clanList = array();
         foreach ($memberList as $member) {
             if (array_key_exists($member->clanId, $clanList)) {

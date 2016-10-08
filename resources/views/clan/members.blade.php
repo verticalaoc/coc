@@ -1,6 +1,7 @@
 @extends('clan')
 
 @section('content')
+@if(!empty($clan))
 <div>
 <h2>
     部落詳細資訊 - {{ $clan->name }}
@@ -47,4 +48,9 @@
     </tbody>
 </table>
 </div>
+@else
+<h2>
+    部落不存在
+</h2>
+@endif
 @stop
