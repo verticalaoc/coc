@@ -27,10 +27,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // send event to sqs to save clan info
         $schedule->command('dev:saveclans')->dailyAt('00:10');
-
-        // perform listener to consume the events
         $schedule->command('queue:work sqs --daemon')->everyThirtyMinutes()->withoutOverlapping();
+        $schedule->command('dev:deleteClans')->everyThirtyMinutes()->withoutOverlapping();
+        $schedule->command('dev:deleteMembers')->everyThirtyMinutes()->withoutOverlapping();
     }
 }

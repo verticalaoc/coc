@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Clan;
 use App\Jobs\SaveClanJob;
+use App\Member;
+use Carbon\Carbon;
 
 class DevController extends Controller
 {
@@ -30,7 +32,13 @@ class DevController extends Controller
         }
     }
 
-    public function adTest() {
-        return view('adTest');
+    public function deleteClans() {
+        $now = Carbon::now();
+        Clan::where('created_at', '<=', $now->addDay(-30))->limit(100)->delete();
+    }
+
+    public function deleteMembers() {
+        $now = Carbon::now();
+        Member::where('created_at', '<=', $now->addDay(-30))->limit(1000)->delete();
     }
 }
