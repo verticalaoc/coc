@@ -12,7 +12,7 @@ class SaveClans extends Command
      *
      * @var string
      */
-    protected $signature = 'dev:saveclans';
+    protected $signature = 'dev:saveClans';
 
     /**
      * The console command description.

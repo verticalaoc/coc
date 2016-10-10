@@ -1,8 +1,6 @@
 @extends('clan')
 
 @section('content')
-
-<hr>
 <h1>《菜菜子的部落衝突》最新消息</h1>
 <hr>
 [20161008] <br>
@@ -12,7 +10,21 @@
 <hr>
 [20160928] <br>
 伺服器出了一些狀況, 經過昨天緊急修復後, 目前已恢復正常.<br>
-造成的影響是 09/24~27 這三天會沒有記錄. <br>
-請大家見諒嚕～ <br>
+造成的影響是 09/24~27 這三天會沒有記錄. 請大家見諒嚕～ <br>
+<hr>
+[20160923]<br>
+新增功能
+<ul>
+    <li><a href="http://coc.dev/monitoredClans">查詢追蹤中的部落</a></li>
+    <li><a href="http://coc.dev/userInputMonitoredClans/add">新增追蹤部落</a></li>
+</ul>
+<hr>
+[20160915]<br>
+正式上線, 提供以下功能
+<ul>
+    <li><a href="http://coc.dev/queryClans">查詢部落</a></li>
+    <li><a href="http://coc.dev/queryClanRankings">查詢部落排名</a></li>
+    <li><a href="http://coc.dev/queryMember">查詢部落成員</a></li>
+</ul>
 @stop
 

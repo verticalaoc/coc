@@ -90,7 +90,7 @@
                 <a class="nav-link" href="{{url('/faq')}}">常見問題</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{url('/about')}}">關於</a>
+                <a class="nav-link" href="{{url('/about')}}">關於我</a>
             </li>
         </ul>
     </nav>

@@ -61,6 +61,5 @@ Route::get('/dev/collectClansToMonitor', 'DevController@collectClansToMonitor');
 Route::get('/dev/saveClans', 'DevController@saveClans');
 
 // [dev] collect ignore clans
-Route::get('/dev/collectIgnoreClans', 'DevController@collectIgnoreClans');
-
-Route::get('/deleteClans', 'DevController@deleteClans');
+//Route::get('/dev/collectIgnoreClans', 'DevController@collectIgnoreClans');
+//Route::get('/deleteClans', 'DevController@deleteClans');

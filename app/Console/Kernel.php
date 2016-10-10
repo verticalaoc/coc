@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\Inspire::class,
         Commands\AddClanToMonitor::class,
         Commands\SaveClans::class,
+        Commands\DeleteClans::class,
+        Commands\DeleteMembers::class,
     ];
 
     /**
@@ -27,7 +29,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('dev:saveclans')->dailyAt('00:10');
+        $schedule->command('dev:saveClans')->dailyAt('00:10');
         $schedule->command('queue:work sqs --daemon')->everyThirtyMinutes()->withoutOverlapping();
         $schedule->command('dev:deleteClans')->everyThirtyMinutes()->withoutOverlapping();
         $schedule->command('dev:deleteMembers')->everyThirtyMinutes()->withoutOverlapping();

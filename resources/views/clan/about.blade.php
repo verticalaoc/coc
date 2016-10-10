@@ -1,7 +1,8 @@
 @extends('clan')
 
 @section('content')
-
+<h1>關於我</h1>
+<hr>
 嗨~ 首領您好! <br>
 歡迎來到《菜菜子的部落衝突》, <br>
 我本身也是一位 coc 玩家, <br>
