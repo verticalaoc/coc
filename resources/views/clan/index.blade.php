@@ -15,16 +15,16 @@
 [20160923]<br>
 新增功能
 <ul>
-    <li><a href="http://coc.dev/monitoredClans">查詢追蹤中的部落</a></li>
-    <li><a href="http://coc.dev/userInputMonitoredClans/add">新增追蹤部落</a></li>
+    <li><a href="{{ url('/monitoredClans') }}">查詢追蹤中的部落</a></li>
+    <li><a href="{{ url('/userInputMonitoredClans/add') }}">新增追蹤部落</a></li>
 </ul>
 <hr>
 [20160915]<br>
 正式上線, 提供以下功能
 <ul>
-    <li><a href="http://coc.dev/queryClans">查詢部落</a></li>
-    <li><a href="http://coc.dev/queryClanRankings">查詢部落排名</a></li>
-    <li><a href="http://coc.dev/queryMember">查詢部落成員</a></li>
+    <li><a href="{{ url('/queryClans') }}">查詢部落</a></li>
+    <li><a href="{{ url('/queryClanRankings') }}">查詢部落排名</a></li>
+    <li><a href="{{ url('/queryMember') }}">查詢部落成員</a></li>
 </ul>
 @stop
 
