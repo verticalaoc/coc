@@ -94,6 +94,7 @@ class ClanController extends Controller
             if (array_key_exists($member->clanId, $clanList)) {
                 continue;
             }
+            // TODO: handle the clan id is not existing case.
             $clan = Clan::find($member->clanId);
             $clanList[$member->clanId] = $clan;
         }

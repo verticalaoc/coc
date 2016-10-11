@@ -34,11 +34,11 @@ class DevController extends Controller
 
     public function deleteClans() {
         $now = Carbon::now();
-        Clan::where('created_at', '<=', $now->addDay(-30))->limit(500)->delete();
+        Clan::where('created_at', '<=', $now->addDay(-30))->delete();
     }
 
     public function deleteMembers() {
         $now = Carbon::now();
-        Member::where('created_at', '<=', $now->addDay(-30))->limit(2000)->delete();
+        Member::where('created_at', '<=', $now->addDay(-30))->delete();
     }
 }
