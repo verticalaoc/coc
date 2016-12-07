@@ -3,6 +3,11 @@
 @section('content')
 <h1>《菜菜子的部落衝突》最新消息</h1>
 <hr>
+[20161207] <br>
+為了減輕伺服器負擔～<br>
+目前只會追蹤七級以上的部落資訊 <br>
+如有需要請多利用 <b>新增追蹤部落</b> 功能<br>
+<hr>
 [20161008] <br>
 十月份更新來嚕！更新詳情請看<a href="https://clashofclans.com/zh/blog/release-notes/october-2016-update">官方部落格</a> <br>
 裡面有提到遊戲內即將支援 < 透過玩家標籤搜尋玩家（可在玩家個人簡介頁面查看）> <br>
