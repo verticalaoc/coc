@@ -73,7 +73,7 @@ class MonitoredClanController extends Controller
 
         // Query the clans by location & level
         $queryPlans = array();
-        $queryPlans[] = ["32000228", 5]; // Taiwan, level 5+
+        $queryPlans[] = ["32000228", 7]; // Taiwan, level 5+
         //$queryPlans[] = ["32000056", 7]; // China, level 7+
         $input = array();
         foreach ($queryPlans as $queryPlan) {

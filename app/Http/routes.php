@@ -29,6 +29,11 @@ Route::get('/queryMember', 'ClanController@queryMember');
 Route::get('/member/{memberTag}', 'ClanController@member');
 Route::get('queryMemberWithTag', 'ClanController@queryMemberWithTag');
 
+// player
+Route::get('/queryPlayer', 'PlayerController@queryPlayer');
+Route::get('/players/{playerTag}', 'PlayerController@player');
+
+
 // monitored clans
 Route::get('/monitoredClans', 'MonitoredClanController@monitoredClans');
 

@@ -5,6 +5,7 @@ use App\Clan;
 use App\ClanRanking;
 use App\Location;
 use App\Member;
+use App\Player;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -117,8 +118,7 @@ class CocService
      *
      * @return Locations
      */
-    public
-    function getLocations()
+    public function getLocations()
     {
         $request = new Request('GET', 'https://api.clashofclans.com/v1/locations', $this->headers);
         $response = $this->client->send($request, ['timeout' => 60.0]);
@@ -128,6 +128,20 @@ class CocService
             $locations[] = new Location($locationData);
         }
         return $locations;
+    }
+
+    /**
+     * Get the list of locations - /v1/locations
+     *
+     * @return Locations
+     */
+    public function getPlayerByTag($playerTag)
+    {
+        $request = new Request('GET', 'https://api.clashofclans.com/v1/players/' . urlencode($playerTag), $this->headers);
+        $response = $this->client->send($request, ['timeout' => 60.0]);
+        dd($this->flattenData(json_decode($response->getBody()->getContents(), true)));
+        $player = new Player(json_decode($response->getBody()->getContents(), true));
+        return $player;
     }
 
 
@@ -142,8 +156,11 @@ class CocService
     {
         do {
             foreach ($data as $key => $value) {
-                if (is_array($value)) {
-                    $data = array_merge($data, $this->flattenArrayDataWithKey($data, $key));
+                if (is_array($value) && $this->isAssoc($value)) {
+                    $data = array_merge($data, $this->flattenAssocArrayDataWithKey($data, $key));
+                    unset($data[$key]);
+                } else if (is_array($value) && !$this->isAssoc($value)) {
+                    $data = array_merge($data, $this->flattenSeqArrayDataWithKey($data, $key));
                     unset($data[$key]);
                 } else {
                     $data[$key] = $value;
@@ -154,17 +171,21 @@ class CocService
     }
 
     /**
-     * Flatten array data by index.
+     * Flatten associative array data by index.
      *
      * @param $data  the data
      * @param $index the index to flatten
      *
      * @return the flattened data
      */
-    private function flattenArrayDataWithKey($data, $index)
+    private function flattenAssocArrayDataWithKey($data, $index)
     {
         $retData = array();
-        if (isset($data[$index]) && !empty($data[$index]) && is_array($data[$index])) {
+        if (isset($data[$index])
+            && !empty($data[$index])
+            && is_array($data[$index])
+            && $this->isAssoc($data[$index])
+        ) {
             foreach ($data[$index] as $key => $value) {
                 $newKey = $index . ucwords($key);
                 $retData[$newKey] = $value;
@@ -172,6 +193,42 @@ class CocService
         }
         return $retData;
     }
+
+    /**
+     * Flatten sequential array data by index.
+     *
+     * @param array  $data  the data
+     * @param string $index the index
+     *
+     * @return the flattened data
+     * @internal param the $index index to flatten
+     *
+     */
+    private function flattenSeqArrayDataWithKey($data, $index)
+    {
+        $retData = array();
+        if (isset($data[$index])
+            && !empty($data[$index])
+            && is_array($data[$index])
+            && !$this->isAssoc($data[$index])
+        ) {
+            foreach ($data[$index] as $key => $value) {
+                // try to get the name
+                $keyName = array_key_exists('name', $data[$index][$key]) ? $data[$index][$key]['name'] : null;
+                if ($keyName == null) continue;
+
+                // encoding the name
+                $keyName = str_replace(" ", "", $keyName);
+                $keyName = str_replace(".", "", $keyName);
+
+                // generate the new name of the key
+                $newKey = $index . ucwords(strtolower($keyName));
+                $retData[$newKey] = $value;
+            }
+        }
+        return $retData;
+    }
+
 
     /**
      * Remove the empty element.
@@ -206,6 +263,20 @@ class CocService
             }
         }
         return true;
+    }
+
+    /**
+     * Check if the given array is associative array.
+     * If yes, return true. Otherwise, return false.
+     *
+     * @param array $arr
+     *
+     * @return bool
+     */
+    private function isAssoc(array $arr)
+    {
+        if (array() === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
 

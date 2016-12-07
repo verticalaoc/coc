@@ -86,6 +86,7 @@ class ClanController extends Controller
     public function member($memberTag)
     {
         $memberList = Member::where('tag', $memberTag)->get();
+        //PHP Fatal error:  Call to a member function isEmpty() on array in /var/app/current/storage/framework/views/2f7d08a77c4c676dd5d26118beac73813b6f2601.php on line 2, referer: http://coc.mynanako.com/clans/278367/members
         if (!$memberList->isEmpty()) {
             $memberList = $this->appendDonationRatio($memberList);
         }
