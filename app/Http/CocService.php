@@ -139,8 +139,8 @@ class CocService
     {
         $request = new Request('GET', 'https://api.clashofclans.com/v1/players/' . urlencode($playerTag), $this->headers);
         $response = $this->client->send($request, ['timeout' => 60.0]);
-        dd($this->flattenData(json_decode($response->getBody()->getContents(), true)));
-        $player = new Player(json_decode($response->getBody()->getContents(), true));
+//        dd($this->flattenData(json_decode($response->getBody()->getContents(), true)));
+        $player = new Player($this->flattenData(json_decode($response->getBody()->getContents(), true)));
         return $player;
     }
 

@@ -80,7 +80,7 @@
         <label class="col-sm-2 col-form-label">最低部落等級</label>
 
         <div class="col-sm-10">
-            <input class='form-control' name="minClanLevel" type="text" value="5">
+            <input class='form-control' name="minClanLevel" type="text" value="7">
         </div>
     </div>
     <div class="form-group row">
