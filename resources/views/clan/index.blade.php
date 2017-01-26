@@ -3,6 +3,15 @@
 @section('content')
 <h1>《菜菜子的部落衝突》最新消息</h1>
 <hr>
+[20170125] <br>
+新功能 & 介面調整
+<ul>
+    <li>新增部落成員的科技資訊. <a href="{{ url('/players/%23VCCQGJJQ') }}">點我看範例</a></li>
+    <li>以線上最新的資料為主, 歷史資料為輔</li>
+    <li>簡化搜尋介面, 將 '查詢部落排名' & '查詢部落成員' 整合到<a href="{{ url('/query') }}">查詢部落</a>裡面嚕！</li>
+</ul>
+<br>
+<hr>
 [20161207] <br>
 為了減輕伺服器負擔～<br>
 目前只會追蹤七級以上的部落資訊 <br>
@@ -27,9 +36,9 @@
 [20160915]<br>
 正式上線, 提供以下功能
 <ul>
-    <li><a href="{{ url('/queryClans') }}">查詢部落</a></li>
-    <li><a href="{{ url('/queryClanRankings') }}">查詢部落排名</a></li>
-    <li><a href="{{ url('/queryMember') }}">查詢部落成員</a></li>
+    <li><a href="{{ url('/query') }}">查詢部落</a></li>
+    <!--    <li><a href="{{ url('/queryClanRankings') }}">查詢部落排名</a></li>-->
+    <!--    <li><a href="{{ url('/queryMember') }}">查詢部落成員</a></li>-->
 </ul>
 @stop
 

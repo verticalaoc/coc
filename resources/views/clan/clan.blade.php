@@ -1,70 +1,65 @@
 @extends('clan')
-
 @section('content')
-
-@if (!$clans->isEmpty())
-<h2>
+<h3>
     <div>
-        部落歷史紀錄 - {{$clans[0]->name}}
+        部落資訊 - {{$clan->name}}
     </div>
-</h2>
+</h3>
 <hr>
-@include('clan.include.clanDetail', ['clan' => $clans[0]])
+@include('clan.include.clanDetail', ['clan' => $clan])
 <hr>
-<small class="form-text text-muted">
-    以往的記錄，每天一份。
-</small>
+<h4>成員資訊</h4>
+<table id="members" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <td>聯盟</td>
+        <td>名稱</td>
+        <td>成員標籤</td>
+        <td>職位</td>
+        <td>經驗</td>
+        <td>獎杯數</td>
+        <td>捐兵數</td>
+        <td>收兵數</td>
+        <td>捐收比</td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach($memberList as $member)
+    <tr>
+        <td><img src="{{$member->leagueIconUrlsSmall}}"></td>
+        <td>{{$member->name}}</td>
+        <td><a href="{{ url('/players', [$member->tag])}}">{{$member->tag}}</a></td>
+        <td>{{$member->role}}</td>
+        <td>{{$member->expLevel}}</td>
+        <td>{{$member->trophies}}</td>
+        <td>{{$member->donations}}</td>
+        <td>{{$member->donationsReceived}}</td>
+        <td>{{$member->donationRatio}}</td>
+    </tr>
+    @endforeach
+    </tbody>
+</table>
+<hr>
+<h4>最近30天記錄</h4>
 <table id="clans" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
     <tr>
         <th>日期</th>
-        <!--    <th>badgeUrls</th>-->
-        <!--    <th>location</th>-->
-        <!--    <th>name</th>-->
-        <!--    <th>tag</th>-->
-        <!--    <th>type</th>-->
-        <!--    <th>clanLevel</th>-->
         <th>總分數</th>
-        <!--    <th>requiredTrophies</th>-->
-        <!--    <th>warFrequency</th>-->
         <th>對戰連勝次數</th>
         <th>對戰勝利</th>
-        <!--        <th>isWarLogPublic</th>-->
-        <th>成員</th>
-        <th>總捐兵數</th>
-        <!--    <th>description</th>-->
     </tr>
     </thead>
     <tbody>
-    @foreach ($clans as $clan)
+    @foreach ($clanHistory as $c)
     <tr>
-        <td>{{$clan->created_at}}</td>
-        <!--    <td><img src="{{$clan->badgeUrlsSmall}}"></td>-->
-        <!--    <td>{{$clan->locationName}}</td>-->
-        <!--    <td><a href="{{action('ClanController@clan',[urlencode($clan->tag)])}}">{{$clan->name}}</a></td>-->
-        <!--    <td>{{$clan->tag}}</td>-->
-        <!--    <td>{{$clan->type}}</td>-->
-        <!--    <td>{{$clan->clanLevel}}</td>-->
-        <td>{{$clan->clanPoints}}</td>
-        <!--    <td>{{$clan->requiredTrophies}}</td>-->
-        <!--    <td>{{$clan->warFrequency}}</td>-->
-        <td>{{$clan->warWinStreak}}</td>
-        <td>{{$clan->warWins}}</td>
-        <!--        <td>{{$clan->isWarLogPublic}}</td>-->
-        <td><a href="{{action('ClanController@members',[urlencode($clan->id)])}}">{{$clan->members}}</a>
-        </td>
-        <td>{{$clan->donations}}</td>
-        <!--    <td>{{$clan->description}}</td>-->
+        <td>{{$c->created_at}}</td>
+        <td>{{$c->clanPoints}}</td>
+        <td>{{$c->warWinStreak}}</td>
+        <td>{{$c->warWins}}</td>
     </tr>
     @endforeach
     </tbody>
     <br><br>
 </table>
-@else
-<h2>
-    <div>
-        部落歷史紀錄不存在
-    </div>
-</h2>
-@endif
 @stop

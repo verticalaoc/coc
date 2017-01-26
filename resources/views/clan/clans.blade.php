@@ -36,11 +36,7 @@
             {{$clan->name}}
         </td>
         <td>
-            @if ($clanExistsInDb[$clan->tag])
             <a href="{{action('ClanController@clan',[urlencode($clan->tag)])}}">{{$clan->tag}}</a>
-            @else
-            {{$clan->tag}}
-            @endif
         </td>
         <!--    <td>{{$clan->type}}</td>-->
         <td>{{$clan->clanLevel}}</td>

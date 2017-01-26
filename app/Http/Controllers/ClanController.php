@@ -31,36 +31,54 @@ class ClanController extends Controller
         $this->validate($request,
             [
                 'name' => 'min:4',
+                'name' => 'required',
             ],
             [
                 'name.min' => '部落名稱長度不可小於 4',
+                'name.required' => '請輸入部落名稱',
             ]
         );
 
         $input = $request->all();
         $cocService = new CocService();
         $clans = $cocService->getClans($input);
-        $clanExistsInDb = array();
-        $newClans = array();
-        foreach ($clans as $clan) {
-            $found = Clan::where('tag', $clan->tag)->orderBy('id', 'desc')->first();
-            if ($found) {
-                $clanExistsInDb[$clan->tag] = true;
-                $clan->description = $found->description;
-                $clan->donations = $found->donations;
-            } else {
-                $clanExistsInDb[$clan->tag] = false;
+        if (sizeof($clans) == 1) {
+            return redirect()->action('ClanController@clan', ['clanTag' => urlencode($clans[0]->tag)]);
+        } else {
+            $clanExistsInDb = array();
+            $newClans = array();
+            foreach ($clans as $clan) {
+                $found = Clan::where('tag', $clan->tag)->orderBy('id', 'desc')->first();
+                if ($found) {
+                    $clanExistsInDb[$clan->tag] = true;
+                    $clan->description = $found->description;
+                    $clan->donations = $found->donations;
+                } else {
+                    $clanExistsInDb[$clan->tag] = false;
+                }
+                $newClans[] = $clan;
             }
-            $newClans[] = $clan;
+            $clans = $newClans;
+            return view('clan.clans', compact('clans', 'input', 'clanExistsInDb'));
         }
-        $clans = $newClans;
-        return view('clan.clans', compact('clans', 'input', 'clanExistsInDb'));
     }
 
     public function clan($clanTag)
     {
-        $clans = Clan::where('tag', $clanTag)->orderBy('id', 'DESC')->get();
-        return view('clan.clan', compact('clans'));
+        $cocService = new CocService();
+        list($clan, $memberList) = $cocService->getClanByTag($clanTag);
+        if (sizeof($memberList)) {
+            $memberList = $this->appendDonationRatio($memberList);
+        }
+        $clanHistory = Clan::where('tag', $clanTag)->orderBy('id', 'DESC')->get();
+        return view('clan.clan', compact('clan', 'memberList', 'clanHistory'));
+    }
+
+    public function query()
+    {
+        $cocService = new CocService();
+        $locations = $cocService->getLocations();
+        return view('clan.query', compact('locations'));
     }
 
     public function queryMember()
@@ -68,9 +86,19 @@ class ClanController extends Controller
         return view('clan.queryMember');
     }
 
-    public function queryMemberWithTag(\Illuminate\Http\Request $request) {
+    public function queryMemberWithTag(\Illuminate\Http\Request $request)
+    {
+        $this->validate($request,
+            [
+                'memberTag' => 'required',
+            ],
+            [
+                'memberTag.required' => '請輸入部落成員標籤',
+            ]
+        );
+
         $input = $request->all();
-        return $this->member($input['memberTag']);
+        return redirect()->action('PlayerController@player', ['playerTag' => urlencode($input['memberTag'])]);
     }
 
     public function members($clanId)
@@ -101,7 +129,6 @@ class ClanController extends Controller
         }
         return view('clan.member', compact('memberList', 'clanList'));
     }
-
 
 
     /**
@@ -185,7 +212,7 @@ class ClanController extends Controller
     private function appendDonationRatio($memberList)
     {
         $memberListWithDonationRatio = new Collection;
-        foreach($memberList as $member) {
+        foreach ($memberList as $member) {
             /** @var \App\Member $member */
             $member->donationRatio = $this->getRatio($member->donations, $member->donationsReceived);
             $memberListWithDonationRatio->push($member);

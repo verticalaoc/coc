@@ -78,14 +78,14 @@
                 <a class="nav-link" href="{{url('/')}}">最新消息</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{url('/queryClans')}}">查詢部落</a>
+                <a class="nav-link" href="{{url('/query')}}">查詢部落</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{url('/queryClanRankings')}}">查詢部落排名</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{url('/queryMember')}}">查詢部落成員</a>
-            </li>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="{{url('/queryClanRankings')}}">查詢部落排名</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="{{url('/queryMember')}}">查詢部落成員</a>-->
+<!--            </li>-->
             <li class="nav-item">
                 <a class="nav-link" href="{{url('/faq')}}">常見問題</a>
             </li>

@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\SaveClans::class,
         Commands\DeleteClans::class,
         Commands\DeleteMembers::class,
+        Commands\SaveClanNow::class,
     ];
 
     /**

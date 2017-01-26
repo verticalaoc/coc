@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Clan;
 use App\Http\CocService;
 
@@ -36,6 +37,9 @@ class ClanRankingController extends Controller
         $this->validate($request,
             [
                 'locationId' => 'required',
+            ],
+            [
+                'locationId.required' => '請輸入部落位置',
             ]
         );
         $input = $request->all();

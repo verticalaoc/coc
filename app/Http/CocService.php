@@ -37,12 +37,6 @@ class CocService
      */
     public function getClans($input)
     {
-        // remove the filter for locationId if it equals to 'any'
-        if ($input['locationId'] == "any") {
-            unset($input['locationId']);
-        }
-        $input = $this->removeEmptyInput($input);
-
         $clans = array();
         $request = new Request('GET', 'https://api.clashofclans.com/v1/clans?' . http_build_query($input), $this->headers);
         $response = $this->client->send($request, ['timeout' => 60.0]);

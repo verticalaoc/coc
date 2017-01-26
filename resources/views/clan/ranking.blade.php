@@ -25,11 +25,7 @@
         <td><img src="{{$clan->badgeUrlsSmall}}"></td>
         <td>{{$clan->name}}</td>
         <td>
-            @if ($clanExistsInDb[$clan->tag])
             <a href="{{ action('ClanController@clan', [urlencode($clan->tag)]) }}">{{$clan->tag}}</a>
-            @else
-            {{$clan->tag}}
-            @endif
         </td>
         <!--        <td>{{$clan->locationName}}</td>-->
         <td>{{$clan->clanLevel}}</td>

@@ -14,6 +14,9 @@
 // index
 Route::get('/', 'ClanController@index');
 
+// query
+Route::get('/query', 'ClanController@query');
+
 // FAQ
 Route::get('/faq', 'ClanController@faq');
 
@@ -32,7 +35,6 @@ Route::get('queryMemberWithTag', 'ClanController@queryMemberWithTag');
 // player
 Route::get('/queryPlayer', 'PlayerController@queryPlayer');
 Route::get('/players/{playerTag}', 'PlayerController@player');
-
 
 // monitored clans
 Route::get('/monitoredClans', 'MonitoredClanController@monitoredClans');

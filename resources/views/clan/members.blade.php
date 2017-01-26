@@ -18,13 +18,9 @@
         <td>職位</td>
         <td>經驗</td>
         <td>獎杯數</td>
-        <!--        <td>clanRank</td>-->
-        <!--        <td>previousClanRank</td>-->
         <td>捐兵數</td>
         <td>收兵數</td>
         <td>捐收比</td>
-        <!--    <td>leagueId</td>-->
-        <!--    <td>leagueName</td>-->
     </tr>
     </thead>
     <tbody>
@@ -32,17 +28,13 @@
     <tr>
         <td><img src="{{$member->leagueIconUrlsSmall}}"></td>
         <td>{{$member->name}}</td>
-        <td><a href="{{ url('/member', [$member->tag])}}">{{$member->tag}}</a></td>
+        <td><a href="{{ url('/players', [$member->tag])}}">{{$member->tag}}</a></td>
         <td>{{$member->role}}</td>
         <td>{{$member->expLevel}}</td>
         <td>{{$member->trophies}}</td>
-        <!--        <td>{{$member->clanRank}}</td>-->
-        <!--        <td>{{$member->previousClanRank}}</td>-->
         <td>{{$member->donations}}</td>
         <td>{{$member->donationsReceived}}</td>
         <td>{{$member->donationRatio}}</td>
-        <!--    <td>{{$member->leagueId}}</td>-->
-        <!--    <td>{{$member->leagueName}}</td>-->
     </tr>
     @endforeach
     </tbody>
