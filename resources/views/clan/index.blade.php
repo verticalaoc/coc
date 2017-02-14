@@ -3,6 +3,14 @@
 @section('content')
 <h1>《菜菜子的部落衝突》最新消息</h1>
 <hr>
+[20170215] <br>
+因為伺服器越來越不穩定～ 網站將停止運作<br>
+建議大家可以去以下兩個網站～<br>
+<ul>
+    <li><a href="https://www.clashofstats.com">https://www.clashofstats.com</a></li>
+    <li><a href="https://www.clashtrack.com">https://www.clashtrack.com</a></li>
+</ul>
+<hr>
 [20170125] <br>
 新功能 & 介面調整
 <ul>
