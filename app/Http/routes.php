@@ -11,61 +11,64 @@
 |
 */
 
-// index
-Route::get('/', 'ClanController@index');
+// root
+Route::get('/', 'RootController@root');
 
-// query
-Route::get('/query', 'ClanController@query');
-
-// FAQ
-Route::get('/faq', 'ClanController@faq');
-
-// about
-Route::get('/about', 'ClanController@about');
-
-// clans
-Route::get('/queryClans', 'ClanController@queryClans');
-Route::get('/clans', 'ClanController@clans');
-
-// member
-Route::get('/queryMember', 'ClanController@queryMember');
-Route::get('/member/{memberTag}', 'ClanController@member');
-Route::get('queryMemberWithTag', 'ClanController@queryMemberWithTag');
-
-// player
-Route::get('/queryPlayer', 'PlayerController@queryPlayer');
-Route::get('/players/{playerTag}', 'PlayerController@player');
-
-// monitored clans
-Route::get('/monitoredClans', 'MonitoredClanController@monitoredClans');
-
-// user input monitored clans
-Route::get('/userInputMonitoredClans', 'MonitoredClanController@userInputMonitoredClans');
-Route::get('/userInputMonitoredClans/add', 'MonitoredClanController@pageAddUserInputMonitoredClans');
-Route::post('/userInputMonitoredClans', 'MonitoredClanController@addUserInputMonitoredClans');
-
-
-// others
-Route::get('/clans/{clanTag}/members', 'ClanController@members');
-Route::get('/clans/{clanTag}/warlogs', 'ClanController@warlogs');
-Route::get('/clans/{clanTag}', 'ClanController@clan');
-
-// clan ranking
-Route::get('/queryClanRankings', 'ClanRankingController@queryClanRankings');
-Route::get('/clanRankings', 'ClanRankingController@clanRankings');
-
-
-// [dev] get clan from db
-Route::get('/clansFromDb', 'ClanController@clansFromDb');
-
-// [dev] get locations
-Route::get('/locations', 'ClanController@locations');
-
-// [dev] query the top clans and insert into monitoredClans table
-Route::get('/dev/collectClansToMonitor', 'DevController@collectClansToMonitor');
-
-// [dev] save clans async
-Route::get('/dev/saveClans', 'DevController@saveClans');
+//// index
+//Route::get('/', 'ClanController@index');
+//
+//// query
+//Route::get('/query', 'ClanController@query');
+//
+//// FAQ
+//Route::get('/faq', 'ClanController@faq');
+//
+//// about
+//Route::get('/about', 'ClanController@about');
+//
+//// clans
+//Route::get('/queryClans', 'ClanController@queryClans');
+//Route::get('/clans', 'ClanController@clans');
+//
+//// member
+//Route::get('/queryMember', 'ClanController@queryMember');
+//Route::get('/member/{memberTag}', 'ClanController@member');
+//Route::get('queryMemberWithTag', 'ClanController@queryMemberWithTag');
+//
+//// player
+//Route::get('/queryPlayer', 'PlayerController@queryPlayer');
+//Route::get('/players/{playerTag}', 'PlayerController@player');
+//
+//// monitored clans
+//Route::get('/monitoredClans', 'MonitoredClanController@monitoredClans');
+//
+//// user input monitored clans
+//Route::get('/userInputMonitoredClans', 'MonitoredClanController@userInputMonitoredClans');
+//Route::get('/userInputMonitoredClans/add', 'MonitoredClanController@pageAddUserInputMonitoredClans');
+//Route::post('/userInputMonitoredClans', 'MonitoredClanController@addUserInputMonitoredClans');
+//
+//
+//// others
+//Route::get('/clans/{clanTag}/members', 'ClanController@members');
+//Route::get('/clans/{clanTag}/warlogs', 'ClanController@warlogs');
+//Route::get('/clans/{clanTag}', 'ClanController@clan');
+//
+//// clan ranking
+//Route::get('/queryClanRankings', 'ClanRankingController@queryClanRankings');
+//Route::get('/clanRankings', 'ClanRankingController@clanRankings');
+//
+//
+//// [dev] get clan from db
+//Route::get('/clansFromDb', 'ClanController@clansFromDb');
+//
+//// [dev] get locations
+//Route::get('/locations', 'ClanController@locations');
+//
+//// [dev] query the top clans and insert into monitoredClans table
+//Route::get('/dev/collectClansToMonitor', 'DevController@collectClansToMonitor');
+//
+//// [dev] save clans async
+//Route::get('/dev/saveClans', 'DevController@saveClans');
 
 // [dev] collect ignore clans
 //Route::get('/dev/collectIgnoreClans', 'DevController@collectIgnoreClans');
